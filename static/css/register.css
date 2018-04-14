@@ -1,0 +1,7 @@
+body {background-color: #eee}
+
+.register {margin-top: 20%; background-color: white; padding: 30px; border-radius: 25px; box-shadow: 5px 5px 10px #888888;}
+
+.register .part-title {font-size: 28px; text-align: center}
+
+.register .register-button {text-align: center}

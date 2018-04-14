@@ -1,0 +1,7 @@
+body {background-color: #eee}
+
+.login {margin-top: 25%; background-color: white; padding: 30px; border-radius: 25px; box-shadow: 5px 5px 10px #888888;}
+
+.login .part-title {font-size: 28px; text-align: center}
+
+.login .login-button {text-align: center}
