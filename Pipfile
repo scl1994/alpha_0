@@ -7,6 +7,8 @@ name = "pypi"
 mysqlclient = "*"
 django = "==1.11.12"
 pillow = "*"
+markdown = "*"
+pygments = "*"
 
 [dev-packages]
 
