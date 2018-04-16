@@ -31,6 +31,8 @@ ALLOWED_HOSTS = []
 
 AUTH_USER_MODEL = "users.UserProfile"
 
+AUTHENTICATION_BACKENDS = ("users.views.CustomBackends",)
+
 # Application definition
 
 INSTALLED_APPS = [

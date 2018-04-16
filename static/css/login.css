@@ -5,3 +5,10 @@ body {background-color: #eee}
 .login .part-title {font-size: 28px; text-align: center}
 
 .login .login-button {text-align: center}
+
+.login .forget-password {margin: 10px 10px 10px 0}
+
+.login .error-message { background: orange;color: blue; text-align: center;}
+.login .error-message h4 {margin: 10px 0}
+
+.login .error-input {border-color: #f00; box-shadow: 0 0 5px #aa0b0b;}

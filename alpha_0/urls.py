@@ -16,11 +16,18 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.contrib import admin
 from django.views.static import serve
+from django.views.generic import TemplateView
 from django.conf import settings
+
+from users.views import LoginView
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'media/(?P<path>.*)$', serve, {"document_root": settings.MEDIA_ROOT}),
 
     url(r'^articles/', include('articles.urls', namespace='articles')),
+
+    url(r'^$', TemplateView.as_view(template_name="index.html"), name="index"),
+
+    url(r'^login/$', LoginView.as_view(), name="login")
 ]

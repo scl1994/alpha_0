@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+{% load staticfiles %}
 <html lang="zh-CN">
 <head>
 	<meta charset="utf-8">
@@ -7,8 +8,8 @@
 
 	<title>my index</title>
 
-	<link href="css/bootstrap/bootstrap.min.css" rel="stylesheet">
-	<link href="css/myindex.css" rel="stylesheet">
+	<link href="{% static 'css/bootstrap/bootstrap.min.css' %}" rel="stylesheet">
+	<link href="{% static 'css/index.css' %}" rel="stylesheet">
 
 </head>
 <body>
@@ -40,15 +41,26 @@
 			</form>
 			<ul class="nav navbar-nav navbar-right">
 				<li class="dropdown">
-					<a class="dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown">
-						个人中心<span class="caret"></span>
-					</a>
-					<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-						<li role="presentation"><a role="menuitem" tabindex="-1" href="#">注册</a></li>
-						<li role="presentation"><a role="menuitem" tabindex="-1" href="#">登录</a></li>
-						<li role="presentation"><a role="menuitem" tabindex="-1" href="#">注销</a></li>
-						<li role="presentation"><a role="menuitem" tabindex="-1" href="#">个人主页</a></li>
-					</ul>
+                    {% if request.user.is_authenticated %}
+                        <a class="dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown">
+                            {{ user.username }}<span class="caret"></span>
+					    </a>
+					    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">个人主页</a></li>
+                            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">注销</a></li>
+                            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">注册</a></li>
+                            <li role="presentation"><a role="menuitem" tabindex="-1" href="{% url 'login' %}">登录</a></li>
+					    </ul>
+
+                    {% else %}
+						<a class="dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown">
+                            用户登录<span class="caret"></span>
+					    </a>
+					    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                            <li role="presentation"><a role="menuitem" tabindex="-1" href="{% url 'login' %}">登录</a></li>
+						    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">注册</a></li>
+					    </ul>
+                    {% endif %}
 				</li>
 			</ul>
 		</div><!--/.nav-collapse -->
@@ -299,7 +311,7 @@
 		<div class="h4 text-center" style="color: white">Design by sclfri, 2018.01.01</div>
 	</div>
 </nav>
-<script src="js/bootstrap/jquery.min.js"></script>
-<script src="js/bootstrap/bootstrap.min.js"></script>
+<script src="{% static 'js/bootstrap/jquery.min.js' %}"></script>
+<script src="{% static 'js/bootstrap/bootstrap.min.js' %}"></script>
 </body>
 </html>
