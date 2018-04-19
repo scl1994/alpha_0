@@ -41,7 +41,7 @@
                         <h4><b>{{ message }}</b></h4>
                     </div>
 					<span class="forget-password"><a href="{% url 'account:register' %}">注册账户！</a></span>
-					<span class="forget-password"><a href="">忘记密码？</a></span>
+					<span class="forget-password"><a href="{% url 'account:forget_pwd' %}">忘记密码？</a></span>
 					<div class="login-button">
 						<button type="submit" class="btn btn-success">登录</button>
 					</div>

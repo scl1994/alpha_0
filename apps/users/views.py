@@ -5,8 +5,8 @@ from django.contrib.auth.backends import ModelBackend
 from django.contrib.auth.hashers import make_password
 
 from .models import UserProfile
-from .forms import LoginForm, RegisterForm
-from utils.send_email import send_register_email
+from .forms import LoginForm, RegisterForm, ForgetPwdForm, ChangePwdForm
+from utils.send_email import send_email
 from utils.token import token_confirm
 
 
@@ -62,7 +62,7 @@ class RegisterView(View):
             user_profile.save()
 
             email_token = token_confirm.generate_validate_token(user_email)
-            send_register_email(email=user_email, token=email_token, send_type="register")
+            send_email(email=user_email, token=email_token, send_type="register")
             return render(request, "login.html")
         else:
             return render(request, "register.html", {"register_form": register_form})
@@ -88,3 +88,45 @@ class ActiveView(View):
         user.is_activated = True
         user.save()
         return render(request, "login.html")
+
+
+class ForgetPasswordView(View):
+    def get(self, request):
+        return render(request, "forget-pwd.html")
+
+    def post(self, request):
+        forget_pwd_form = ForgetPwdForm(request.POST)
+        if forget_pwd_form.is_valid():
+            email = request.POST.get("email", "")
+
+            email_token = token_confirm.generate_validate_token(email)
+            send_email(email=email, token=email_token, send_type="forget_pwd")
+            return render(request, "send-success.html")
+        return render(request, "forget-pwd.html", {"forget_pwd_form": forget_pwd_form})
+
+
+class ForgetVerifyView(View):
+    def get(self, request, token):
+        try:
+            email = token_confirm.confirm_validate_token(token, expiration=3600)
+        except:
+            return render(request, "forget-pwd.html", {"message": "邮箱验证信息有误或者已过期，请重新验证"})
+        return render(request, "change-pwd.html", {"user_email": email})
+
+
+class ChangePwdView(View):
+    def get(self, request):
+        return render(request, "change-pwd.html")
+
+    def post(self, request):
+        change_pwd_form = ChangePwdForm(request.POST)
+        if change_pwd_form.is_valid():
+            email = request.POST.get("email")
+            password = request.POST.get("password_1")
+            user = UserProfile.objects.get(email=email)
+            user.password = make_password(password)
+            user.save()
+            return render(request, "login.html")
+        else:
+            email = request.POST.get("email", "")
+            return render(request, "change-pwd.html", {"change_pwd_form": change_pwd_form, "user_email": email})

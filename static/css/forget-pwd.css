@@ -1,0 +1,14 @@
+body {background-color: #eee}
+
+.verify-email {margin-top: 25%; background-color: white; padding: 30px; border-radius: 25px; box-shadow: 5px 5px 10px #888888;}
+
+.verify-email .part-title {font-size: 28px; text-align: center}
+
+.verify-email .verify-button {text-align: center}
+
+.verify-email .login {margin: 10px 10px 10px 0}
+
+.verify-email .error-message { background: orange;color: blue; text-align: center;}
+.verify-email .error-message h4 {margin: 10px 0}
+
+.verify-email .error-input {border-color: #f00; box-shadow: 0 0 5px #aa0b0b;}
