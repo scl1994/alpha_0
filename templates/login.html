@@ -18,7 +18,7 @@
 		<div class="col-md-6 col-md-offset-3">
 			<div class="login" >
 				<p class="part-title"><b>登录</b></p>
-				<form action="{% url 'login' %}" method="POST" role="form">
+				<form action="{% url 'account:login' %}" method="POST" role="form">
 					<div class="form-group">
 						<label for="user_email">邮箱</label>
 						<input type="email" name="user_email" class="form-control {% if login_form.errors.user_email %}error-input{% endif %}" id="user_email" placeholder="邮箱" required="required">
@@ -40,7 +40,7 @@
                     <div class="error-message">
                         <h4><b>{{ message }}</b></h4>
                     </div>
-					<span class="forget-password"><a href="">注册账户！</a></span>
+					<span class="forget-password"><a href="{% url 'account:register' %}">注册账户！</a></span>
 					<span class="forget-password"><a href="">忘记密码？</a></span>
 					<div class="login-button">
 						<button type="submit" class="btn btn-success">登录</button>

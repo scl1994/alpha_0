@@ -40,28 +40,29 @@
 				<button type="submit" class="btn btn-default">搜索</button>
 			</form>
 			<ul class="nav navbar-nav navbar-right">
-				<li class="dropdown">
-                    {% if request.user.is_authenticated %}
+                {% if request.user.is_authenticated %}
+                    <li class="dropdown">
                         <a class="dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown">
                             {{ user.username }}<span class="caret"></span>
 					    </a>
 					    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
                             <li role="presentation"><a role="menuitem" tabindex="-1" href="#">个人主页</a></li>
                             <li role="presentation"><a role="menuitem" tabindex="-1" href="#">注销</a></li>
-                            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">注册</a></li>
-                            <li role="presentation"><a role="menuitem" tabindex="-1" href="{% url 'login' %}">登录</a></li>
+                            <li role="presentation"><a role="menuitem" tabindex="-1" href="{% url 'account:register' %}">注册</a></li>
+                            <li role="presentation"><a role="menuitem" tabindex="-1" href="{% url 'account:login' %}">登录</a></li>
 					    </ul>
-
-                    {% else %}
-						<a class="dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown">
+                    </li>
+                {% else %}
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown">
                             用户登录<span class="caret"></span>
 					    </a>
 					    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-                            <li role="presentation"><a role="menuitem" tabindex="-1" href="{% url 'login' %}">登录</a></li>
-						    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">注册</a></li>
+                            <li role="presentation"><a role="menuitem" tabindex="-1" href="{% url 'account:login' %}">登录</a></li>
+						    <li role="presentation"><a role="menuitem" tabindex="-1" href="{% url 'account:register' %}">注册</a></li>
 					    </ul>
-                    {% endif %}
-				</li>
+                    </li>
+                {% endif %}
 			</ul>
 		</div><!--/.nav-collapse -->
 	</div>
@@ -69,13 +70,6 @@
 
 <mainpart>
 	<div class="container">
-		<!--<div class="pics">-->
-			<!--<ul>-->
-				<!--<li><a href="" target="_blank"><img src="picture/42d76eafa6495d9647a4fd245201f56c.jpg"></a><span>【匆匆那些年】总结个人博客经历的这四年…</span></li>-->
-				<!--<li><a href="" target="_blank"><img src="picture/c9668d65657bc41b77f6834984538979.jpg"></a><span>分享我的个人博客访问量如何做到IP从10到600的...</span></li>-->
-				<!--<li><a href="" target="_blank"><img src="picture/13ec5c876bf437fd7e9e6b12b565a69c.jpg"></a><span>如果要学习web前端开发，需要学习什么？</span></li>-->
-			<!--</ul>-->
-		<!--</div>-->
 		<div class="row">
 
 			<div class="col-md-9 main-left">

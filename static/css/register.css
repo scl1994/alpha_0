@@ -5,3 +5,10 @@ body {background-color: #eee}
 .register .part-title {font-size: 28px; text-align: center}
 
 .register .register-button {text-align: center}
+
+.register .error-message { background: orange;color: blue; text-align: center;}
+.register .error-message h4 {margin: 10px 0}
+
+.register .error-input {border-color: #f00; box-shadow: 0 0 5px #aa0b0b;}
+
+.register .have-account {margin: 10px 10px 10px 0}

@@ -1,5 +1,5 @@
 [[source]]
-url = "https://pypi.python.org/simple"
+url = "https://pypi.douban.com/simple"
 verify_ssl = true
 name = "pypi"
 
@@ -9,6 +9,7 @@ django = "==1.11.12"
 pillow = "*"
 markdown = "*"
 pygments = "*"
+itsdangerous = "*"
 
 [dev-packages]
 

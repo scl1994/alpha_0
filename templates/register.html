@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="zh-CN">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<title>my index</title>
+
+	<link href="{% static 'css/bootstrap/bootstrap.min.css' %}" rel="stylesheet">
+	<link href="{% static 'css/register.css' %}" rel="stylesheet">
+
+</head>
+<body>
+<div class="container">
+	<div class="row">
+		<div class="col-md-6 col-md-offset-3">
+			<div class="register">
+				<p class="part-title"><b>注册</b></p>
+				<form action="{% url 'account:register' %}" method="post">
+					<div class="form-group">
+						<label for="exampleInputEmail1">邮箱</label>
+						<input name="email" type="email" required="required" class="form-control {% if register_form.errors.email %}error-input{% endif %}" id="exampleInputEmail1" placeholder="邮箱">
+					</div>
+                    {% if register_form.errors.email %}
+                        <div class="error-message">
+                            <h4><b>{{ register_form.errors.email.0 }}</b></h4>
+                        </div>
+                    {% endif %}
+					<div class="form-group">
+						<label for="username">昵称</label>
+						<input name="username" type="text" required="required" class="form-control {% if register_form.errors.username %}error-input{% endif %}" id="username" placeholder="昵称">
+					</div>
+                    {% if register_form.errors.username %}
+                        <div class="error-message">
+                            <h4><b>{{ register_form.errors.username.0 }}</b></h4>
+                        </div>
+                    {% endif %}
+					<div class="form-group">
+						<label for="exampleInputPassword1">密码</label>
+						<input name="password_1" type="password" required="required" class="form-control {% if register_form.errors.password_1 %}error-input{% endif %}" id="password_1" placeholder="密码">
+					</div>
+                    {% if register_form.errors.password_1 %}
+                        <div class="error-message">
+                            <h4><b>{{ register_form.errors.password_1.0 }}</b></h4>
+                        </div>
+                    {% endif %}
+					<div class="form-group">
+						<label for="password_2">确认密码</label>
+						<input name="password_2" type="password" required="required" class="form-control {% if register_form.errors.password_2 %}error-input{% endif %}" id="password_2" placeholder="确认密码">
+					</div>
+                    {% if register_form.errors.password_2 %}
+                        <div class="error-message">
+                            <h4><b>{{ register_form.errors.password_2.0 }}</b></h4>
+                        </div>
+                    {% endif %}
+                    <div class="error-message">
+                        <h4><b>{{ message }}</b></h4>
+                    </div>
+                    <span class="have-account"><a href="{% url 'account:login' %}">已有账号!</a></span>
+					<div class="register-button">
+						<button type="submit" class="btn btn-success">注册</button>
+					</div>
+                    {% csrf_token %}
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+<script src="{% static 'js/bootstrap/jquery.min.js' %}"></script>
+<script src="{% static 'js/bootstrap/bootstrap.min.js' %}"></script>
+</body>
+</html>

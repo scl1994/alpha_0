@@ -136,3 +136,16 @@ STATICFILES_DIRS = (
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
+
+# 发送邮件
+EMAIL_HOST = "smtp.sina.com"
+
+EMAIL_PORT = 25
+
+EMAIL_HOST_USER = "alpha_scl@sina.com"
+EMAIL_HOST_PASSWORD = "admin123"
+
+EMAIL_USE_TSL = False
+
+EMAIL_FROM = "alpha_scl@sina.com"
