@@ -1,0 +1,52 @@
+{% if is_paginated %}
+    {% load i18n %}
+    <div class="text-center">
+        <nav aria-label="Page navigation">
+            <ul class="pagination pagination-sm">
+                {% block previouslink %}
+                    {% if page_obj.has_previous %}
+                        {% if disable_link_for_first_page and page_obj.previous_page_number == 1 %}
+                            <li><a href="{{ request.path }}{% if getvars %}?{{ getvars|slice:"1:" }}{% endif %}" class="prev">{% trans "前一页" %}</a></li>
+                        {% else %}
+                            <li><a href="?page{{ page_suffix }}={{ page_obj.previous_page_number }}{{ getvars }}" class="prev">{% trans "前一页" %}</a></li>
+                        {% endif %}
+                    {% else %}
+                        {% if display_disabled_previous_link %}
+                            <li><span class="disabled prev">{% trans "前一页" %}</span></li>
+                        {% endif %}
+                    {% endif %}
+                {% endblock previouslink %}
+
+                {% block pagelinks %}
+                    {% if display_page_links %}
+                        {% for page in pages %}
+                            {% if page %}
+                                {% ifequal page page_obj.number %}
+                                    <li class="active"><span class="current page">{{ page }}</span></li>
+                                {% else %}
+                                    {% if disable_link_for_first_page and page == 1 %}
+                                        <li><a href="{{ request.path }}{% if getvars %}?{{ getvars|slice:"1:" }}{% endif %}" class="page">{{ page }}</a></li>
+                                    {% else %}
+                                        <li><a href="?page{{ page_suffix }}={{ page }}{{ getvars }}" class="page">{{ page }}</a></li>
+                                    {% endif %}
+                                {% endifequal %}
+                            {% else %}
+                                <li class="disabled"><span>...</span></li>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                {% endblock pagelinks %}
+
+                {% block nextlink %}
+                    {% if page_obj.has_next %}
+                        <li><a href="?page{{ page_suffix }}={{ page_obj.next_page_number }}{{ getvars }}" class="next">{% trans "后一页" %}</a></li>
+                    {% else %}
+                        {% if display_disabled_next_link %}
+                            <li><span class="disabled next">{% trans "后一页" %}</span></li>
+                        {% endif %}
+                    {% endif %}
+                {% endblock nextlink %}
+            </ul>
+        </nav>
+    </div>
+{% endif %}

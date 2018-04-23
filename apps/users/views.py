@@ -75,10 +75,12 @@ class ActiveView(View):
         except:
             try:
                 email = token_confirm.remove_validate_token(token)
-                users = UserProfile.objects.filter(email=email)
-                for user in users:
+                user = UserProfile.objects.get(email=email)
+                if user.is_activated:
+                    return render(request, "login.html")
+                else:
                     user.delete()
-                return render(request, "register.html", {"message": "激活信息已过期，请重新注册"})
+                    return render(request, "register.html", {"message": "激活信息已过期，请重新注册"})
             except:
                 return render(request, "register.html", {"message": "激活信息有误，请重新注册"})
         try:

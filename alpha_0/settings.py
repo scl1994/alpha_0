@@ -43,6 +43,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    # 分页
+    'dj_pagination',
+
     'users.apps.UsersConfig',
     'articles.apps.ArticlesConfig',
 ]
@@ -55,6 +58,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    # 分页
+    'dj_pagination.middleware.PaginationMiddleware',
 ]
 
 ROOT_URLCONF = 'alpha_0.urls'
@@ -70,6 +76,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                # 添加下面这样，在模板中的{{MEDIA_URL}}才会生效
+                "django.template.context_processors.media",
             ],
         },
     },
@@ -149,3 +157,11 @@ EMAIL_HOST_PASSWORD = "admin123"
 EMAIL_USE_TSL = False
 
 EMAIL_FROM = "alpha_scl@sina.com"
+
+# 分页
+
+# 默认每页个数
+PAGINATION_DEFAULT_PAGINATION = 1
+
+
+PAGINATION_DEFAULT_WINDOW = 2

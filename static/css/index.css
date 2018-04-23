@@ -2,7 +2,7 @@ body { background: #f1f1f1}
 
 a { color: black}
 a:hover { text-decoration: none }
-li {list-style: none}
+/*li {list-style: none}*/
 
 
 /*资源下载展示区域*/
@@ -28,7 +28,7 @@ li {list-style: none}
 .blog-list .blog-pic { overflow: hidden; width: 30%; height: 100px; display: block; float: left; margin-right: 20px; border-radius: 5px; background: #333333; }
 .blog-list .blog-pic img { width: 100% }
 .blog-list ul { padding: 10px; overflow: hidden }
-.blog-list li { border-bottom: #ccc 1px solid; margin-bottom: 10px; overflow: hidden; }
+.blog-list li { border-bottom: #ccc 1px solid; margin-bottom: 10px; overflow: hidden; list-style: none }
 .blog-list .author { width: 100%; overflow: hidden; clear: both; margin: 20px 0 0 0; display: inline-block; color: #838383; font-size: 12px }
 .blog-list .author span { margin: 0 15px 0 0;}
 .blog-list .author span a { color: #096; }
@@ -51,7 +51,7 @@ li {list-style: none}
 .hot-articles { background: #ffffff; border-radius: 10px; overflow: hidden; margin: 20px 0 }
 .hot-articles .part-title { text-align: center; position: relative; margin: 20px; }
 .hot-articles ul { padding: 10px; }
-.hot-articles ul li { border-bottom: solid 1px #EAEAEA; font-size: 14px; margin: 0 0 10px 0; padding: 0 0 10px 0; }
+.hot-articles ul li { list-style:none; border-bottom: solid 1px #EAEAEA; font-size: 14px; margin: 0 0 10px 0; padding: 0 0 10px 0; }
 .hot-articles ul li b { height: 30px; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; display: block; }
 .hot-articles ul li p { line-height: 24px; color: #888 }
 .hot-articles ul li a:hover { color: #000; }

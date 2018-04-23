@@ -1,7 +1,7 @@
 from datetime import datetime
 
 from django.db import models
-import markdown
+import markdown2
 
 from users.models import UserProfile
 
@@ -23,7 +23,7 @@ class SpecialColumn(models.Model):
     title = models.CharField(max_length=50, verbose_name="专栏名")
     description = models.CharField(max_length=500, verbose_name="专栏简介")
     image = models.ImageField(upload_to="image/specialColumn/%Y/%m", max_length=500,
-                              default="media/default/specialColumn/special_01.jpg", verbose_name="专栏封面")
+                              default="default/specialColumn/special_01.jpg", verbose_name="专栏封面")
     add_time = models.DateTimeField(default=datetime.now, verbose_name="添加时间")
     update_time = models.DateTimeField(default=datetime.now, verbose_name="修改时间")
 
@@ -39,7 +39,7 @@ class Series(models.Model):
     title = models.CharField(max_length=50, verbose_name="系列名")
     description = models.CharField(max_length=500, verbose_name="描述")
     image = models.ImageField(upload_to="image/series/%Y/%m", max_length=500,
-                              default="media/default/series/series_01.jpg", verbose_name="封面图")
+                              default="default/series/series_01.jpg", verbose_name="封面图")
     add_time = models.DateTimeField(default=datetime.now, verbose_name="添加时间")
     update_time = models.DateTimeField(default=datetime.now, verbose_name="修改时间")
 
@@ -54,7 +54,7 @@ class Series(models.Model):
 class Articles(models.Model):
     title = models.CharField(max_length=200, verbose_name="标题")
     image = models.ImageField(upload_to="image/articles/%Y/%m", max_length=500,
-                              default="media/default/articles/article_01.jpg", verbose_name="封面图")
+                              default="default/articles/article_01.jpg", verbose_name="封面图")
     author = models.ForeignKey(UserProfile, verbose_name="作者")
     abstract = models.CharField(max_length=500, verbose_name="摘要")
     special_column = models.ForeignKey(SpecialColumn, verbose_name="专栏")
@@ -79,11 +79,14 @@ class Articles(models.Model):
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
         try:
-            self.content_html = markdown.markdown(self.content_markdown, extensions=[
-                'markdown.extensions.extra',
-                'markdown.extensions.codehilite',
-                'markdown.extensions.toc', ])
+            self.content_html = markdown2.markdown(self.content_markdown, extras=[
+                'fenced-code-blocks',
+                'cuddled-lists',
+                'tables',
+                'code-friendly'])
         except Exception:
             self.content_html = self.content_markdown
+        # 更新修改日期
+        self.update_time = datetime.now()
 
-        super(Articles, self).save()
+        super(Articles, self).save(force_insert=False, force_update=False, using=None, update_fields=None)

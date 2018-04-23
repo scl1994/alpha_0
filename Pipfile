@@ -5,11 +5,12 @@ name = "pypi"
 
 [packages]
 mysqlclient = "*"
-django = "==1.11.12"
+Django = "==1.11.12"
 pillow = "*"
-markdown = "*"
-pygments = "*"
+Pygments = "*"
 itsdangerous = "*"
+"markdown2" = "*"
+dj-pagination = "*"
 
 [dev-packages]
 

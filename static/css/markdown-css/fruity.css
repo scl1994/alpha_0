@@ -37,7 +37,7 @@
 .codehilite .s { color: #0086d2 } /* Literal.String */
 .codehilite .na { color: #ff0086; font-weight: bold } /* Name.Attribute */
 .codehilite .nb { color: #ffffff } /* Name.Builtin */
-.codehilite .nc { color: #ffffff } /* Name.Class */
+.codehilite .nc { color: yellow} /* Name.Class */
 .codehilite .no { color: #0086d2 } /* Name.Constant */
 .codehilite .nd { color: #ffffff } /* Name.Decorator */
 .codehilite .ni { color: #ffffff } /* Name.Entity */

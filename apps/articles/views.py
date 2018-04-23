@@ -9,3 +9,9 @@ class ArticleDetailView(View):
         article = Articles.objects.get(id=article_id)
         tags = article.tags.all()
         return render(request, 'article.html', {"article": article, "tags": tags})
+
+
+class ArticleAllView(View):
+    def get(self, request):
+        articles_list = Articles.objects.all().order_by("-add_time")
+        return render(request, 'article-list.html', {"articles_list": articles_list})

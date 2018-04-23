@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load pagination_tags %}
+{% block custom_css %}
+    <link href="{% static 'css/index.css' %}" rel="stylesheet">
+{% endblock %}
+{% block main_left %}
+    <div class="blog-list">
+					<h2 class="part-title">最新文章</h2>
+					<ul>
+                        {% autopaginate articles_list %}
+                        {% for article in articles_list %}
+                            <li>
+							<h3 class="blog-title"><a href="" target="_blank" >{{ article.title }}</a></h3>
+							<div class="blog-info">
+								<span class="blog-pic">
+									<a href="" title="{{ article.title }}">
+										<img src="{{ MEDIA_URL }}{{ article.image }}" alt="{{ article.title }}" />
+									</a>
+								</span>
+								<p>{{ article.abstract }}</p>
+							</div>
+							<div class="author">
+								<span class="blog-tags "><span class="glyphicon glyphicon-tag" aria-hidden="true"></span>{{ article.author.username }}</span>
+								<span class="datetime"><span class="glyphicon glyphicon-time" aria-hidden="true"></span>{{ article.add_time }}</span>
+								<span class="click-num"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>浏览（{{ article.click_number }}）</span>
+								<span class="read-more"><a href="{% url 'articles:article_detail' article.id %}" class="more">阅读原文>></a></span>
+							</div>
+						</li>
+                        {% endfor %}
+					</ul>
+					<!--分页显示-->
+                    {% paginate using 'pagination/pagination.html' %}
+				</div>
+{% endblock %}
+{% block main_right %}
+    <div class="advertisement">
+					<h2 class="part-title">广告位招租</h2>
+					<div class="pics">
+						<img src="picture/ad.jpg">
+					</div>
+				</div>
+    <div class="hot-articles">
+					<h2 class="part-title"><a href="/">热文推荐</a></h2>
+					<ul>
+						<li><b><a href="/download/div/2015-04-10/746.html" target="_blank">【活动作品】柠檬绿兔小白个人博客模板30...</a></b>
+							<p>展示的是首页html，博客页面布局格式简单，没有复杂的背景，色彩局部点缀，动态的幻灯片展示，切换卡，标...</p>
+						</li>
+						<li><b><a href="/download/div/2014-02-19/649.html" target="_blank"> 个人博客模板（2014草根寻梦）30...</a></b>
+							<p>2014第一版《草根寻梦》个人博客模板简单、优雅、稳重、大气、低调。专为年轻有志向却又低调的草根站长设...</p>
+						</li>
+						<li><b><a href="/download/div/2013-08-08/571.html" target="_blank">黑色质感时间轴html5个人博客模板30...</a></b>
+							<p>黑色时间轴html5个人博客模板颜色以黑色为主色，添加了彩色作为网页的一个亮点，导航高亮显示、banner图片...</p>
+						</li>
+						<li><b><a href="/download/div/2014-09-18/730.html" target="_blank">情侣博客模板系列之《回忆》Html30...</a></b>
+							<p>Html5+css3情侣博客模板，主题《回忆》，使用css3技术实现网站动画效果，主题《回忆》,分为四个主要部分，...</p>
+						</li>
+						<li><b><a href="/download/div/2014-04-17/661.html" target="_blank">黑色Html5个人博客模板主题《如影随形》30...</a></b>
+							<p>014第二版黑色Html5个人博客模板主题《如影随形》，如精灵般的影子会给人一种神秘的感觉。一张剪影图黑白...</p>
+						</li>
+						<li><b><a href="/jstt/bj/2015-01-09/740.html" target="_blank">【匆匆那些年】总结个人博客经历的这四年…30...</a></b>
+							<p>博客从最初的域名购买，到上线已经有四年的时间了，这四年的时间，有笑过，有怨过，有悔过，有执着过，也...</p>
+						</li>
+					</ul>
+				</div>
+    <div class="hot-articles">
+					<h2 class="part-title"><a href="/">随便看看</a></h2>
+					<ul>
+						<li><b><a href="/jstt/css3/2018-03-20/808.html" target="_blank">十条设计原则教你学会如何设计网页布局!30...</a></b>
+							<p>网页常见的布局有很多种,单列布局,多列布局.其中单列布局是国外很多网站比较常用的.咱们很多站长以及门户...</p>
+						</li>
+						<li><b><a href="/download/div/2018-03-18/807.html" target="_blank">html5个人博客模板主题《绅士》30...</a></b>
+							<p>因其颜色主要是黑白搭配,重点突出的是文字内容,就像是一个颇有内涵的绅士.所以此模板主题为《绅士》,个人...</p>
+						</li>
+						<li><b><a href="/jstt/css3/2018-03-14/806.html" target="_blank">用js+css3来写一个手机栏目导航30...</a></b>
+							<p>有些站长说想做一个手机适应的网站,但是导航太难了,如果要使用框架的话,代码非常多,冗余.再用dreamwear打...</p>
+						</li>
+						<li><b><a href="/jstt/css3/2018-03-14/805.html" target="_blank">6条网页设计配色原则,让你秒变配色高手30...</a></b>
+							<p>网页设计好不好看,颜色是毋庸置疑要排首位的,所以关于颜色的搭配技巧以及原则,对于每一个要学习web前端设...</p>
+						</li>
+						<li><b><a href="/news/life/2018-03-13/804.html" target="_blank">作为一个设计师,如果遭到质疑你是否能恪守自己的原则?30...</a></b>
+							<p>就拿我自己来说吧，有时候会很矛盾，设计好的作品，不把它分享出来，会觉得待在自己电脑里面实在是没有意...</p>
+						</li>
+						<li><b><a href="/news/life/2018-03-12/803.html" target="_blank">Come on,行动起来吧!我们和时间来一场赛跑!30...</a></b>
+							<p>时间过得那么飞快,使我的小心眼儿里不只是着急,还有悲伤.有一天,我放学回家,看到太阳快落山了,就下决心说...</p>
+						</li>
+					</ul>
+					<div class="ad"><img src="picture/ad01.jpg"></div>
+				</div>
+{% endblock %}

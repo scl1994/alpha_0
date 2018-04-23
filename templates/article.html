@@ -8,39 +8,50 @@
 {% block main_left %}
     <div class="detail">
         <div class="article-body">
-            <h2 class="page-path">您现在的位置是：<a href="/">首页</a>&nbsp;>&nbsp;<a href="/jstt/">学无止境</a>&nbsp;>&nbsp;<a href="/jstt/web/">网站建设</a></h2>
+            <h5 class="page-path">您现在的位置是：<a href="{% url 'index' %}">首页</a>&nbsp;>&nbsp;<a href="">学无止境</a>&nbsp;>&nbsp;<a href="/jstt/web/">网站建设</a></h5>
             <h3 class="article-title"><b>{{ article.title }}</b></h3>
             <div class="article-author">
-                <span class="author-name"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>css3</span>
-                <span class="create-time"><span class="glyphicon glyphicon-time" aria-hidden="true"></span>2018-01-01</span>
-                <span class="click-numbers"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>浏览（115）</span>
+                <span class="author-name"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>{{ article.author.username }}</span>
+                <span class="create-time"><span class="glyphicon glyphicon-time" aria-hidden="true"></span>{{ article.add_time }}</span>
+                <span class="click-numbers"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>浏览（{{ article.click_number }}）</span>
             </div>
             <div class="tags">
                 {% for tag in tags %}
-                    <a href="/e/tags/?tagname=%B5%DB%B9%FA+&tempid=13" target="_blank">{{ tag.name }}</a>
+                    <a href="" target="_blank">{{ tag.name }}</a>
                 {% endfor %}
-
             </div>
             <div class="abstract"><strong>简介</strong>{{ article.abstract }}</div>
+            <div class="article-cover">
+                <img src="{{ MEDIA_URL }}{{ article.image }}" alt="">
+            </div>
             <div class="article_content">
                 {{ article.content_html | safe }}
             </div>
         </div>
-    </div>
-    <div class="next-article">
-        <p>上一篇：<a href=''>野草云怎么样？香港CN2 VPS，美国CERA VPS，香港虚拟主机</a></p>
-        <p>下一篇：<a href=''>返回列表</a></p>
+        <div class="favourite-like">
+            <button type="button" class="btn btn-primary btn-lg">
+                <a href="">
+                    <span class="glyphicon glyphicon-heart-empty" aria-hidden="true"></span>点赞
+                </a>
+            </button>
+            <button type="button" class="btn btn-success btn-lg">
+                <a href="">
+                    <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>收藏
+                </a>
+            </button>
+        </div>
     </div>
     <div class="comments">
-        <form>
-						<div class="form-group">
-							<label class="part-title" for="comment-input">评 论</label>
-							<textarea class="form-control" id="comment-input" rows="5" placeholder="来说两句吧"></textarea>
-						</div>
-						<button type="submit" class="btn btn-success">提交</button>
-					</form>
+        <form class="comment-input">
+            <div class="form-group">
+                <label class="part-title" for="comment-input">评 论</label>
+                <textarea class="form-control" id="comment-input" rows="5" placeholder="来说两句吧"></textarea>
+            </div>
+            <button type="submit" class="btn btn-success btn-lg">评论</button>
+            <div class="clear-float"></div>
+        </form>
         <ul class="comments-list">
-						<li class="comment-detail">
+            <li class="comment-detail">
 							<div class="col-md-2">
 								<div class="profile-picture">
 									<img src="picture/hehe.jpg" alt="absolutely" />
@@ -75,7 +86,7 @@
 								</ul>
 							</div>
 						</li>
-						<li class="comment-detail">
+            <li class="comment-detail">
 							<div class="col-md-2">
 								<div class="profile-picture">
 									<img src="picture/hehe.jpg" alt="absolutely" />
@@ -95,7 +106,7 @@
 								</ul>
 							</div>
 						</li>
-					</ul>
+        </ul>
     </div>
 {% endblock %}
 
