@@ -1,3 +1,9 @@
 from django.contrib import admin
 
-# Register your models here.
+from .models import Comments
+
+
+@admin.register(Comments)
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ("id", "add_time")
+

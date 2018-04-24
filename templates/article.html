@@ -1,9 +1,11 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
+{% load el_pagination_tags %}
 {% block custom_css %}
     <link href="{% static 'css/index.css' %}" rel="stylesheet">
 	<link href="{% static 'css/article.css' %}" rel="stylesheet">
 {% endblock %}
+
 
 {% block main_left %}
     <div class="detail">
@@ -29,84 +31,32 @@
             </div>
         </div>
         <div class="favourite-like">
-            <button type="button" class="btn btn-primary btn-lg">
-                <a href="">
-                    <span class="glyphicon glyphicon-heart-empty" aria-hidden="true"></span>点赞
-                </a>
+            <button type="button" id="article_favourite" class="btn btn-success btn-lg favourite_and_like {% if has_favourite %}is_active{% endif %}">
+                <b><span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>收藏（{{ article.get_favourite_number }}）</b>
             </button>
-            <button type="button" class="btn btn-success btn-lg">
-                <a href="">
-                    <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>收藏
-                </a>
+            <button type="button" id="article_like" class="btn btn-primary btn-lg favourite_and_like {% if has_like %}is_active{% endif %}">
+                <b><span class="glyphicon glyphicon-heart-empty" aria-hidden="true"></span>点赞（{{ article.get_like_number }}）</b>
             </button>
         </div>
     </div>
     <div class="comments">
-        <form class="comment-input">
-            <div class="form-group">
-                <label class="part-title" for="comment-input">评 论</label>
-                <textarea class="form-control" id="comment-input" rows="5" placeholder="来说两句吧"></textarea>
+        {% if article.can_comment %}
+            <form class="comment-input" action="">
+                <div class="form-group">
+                    <label class="part-title" for="comment-input">评 论（{{ article.get_comment_number }}）</label>
+                    <textarea class="form-control" id="comment-input" rows="5" placeholder="来说两句吧"></textarea>
+                </div>
+                <button type="button" id="comment-submit-button" class="btn btn-success btn-lg">评论</button>
+                <div class="clear-float"></div>
+            </form>
+            <ul class="comments-list">
+                {% include page_template %}
+            </ul>
+        {% else %}
+            <div class="comments">
+                <p class="text-center">当前文章暂未开放评论</p>
             </div>
-            <button type="submit" class="btn btn-success btn-lg">评论</button>
-            <div class="clear-float"></div>
-        </form>
-        <ul class="comments-list">
-            <li class="comment-detail">
-							<div class="col-md-2">
-								<div class="profile-picture">
-									<img src="picture/hehe.jpg" alt="absolutely" />
-								</div>
-							</div>
-							<div class="col-md-10 info">
-								<span class="username">dabiaoge</span>
-								<span class="time">2018-01-01</span>
-								<p class="content">我说道：“爸爸，你走吧。</p>
-							</div>
-							<div class="comment-like">
-								<span class="like"><span class="glyphicon glyphicon-thumbs-up"></span>（100）</span>
-								<div class="clear-float"></div>
-							</div>
-							<div class="col-md-10 col-md-offset-2 comment-reply">
-								<ul class="reply-list">
-									<li>
-										<span class="username">dabiaoge</span>
-										<span class="time">2018-01-01</span>
-										<p>我买几个橘子去。你就在此地，不要走动。</p>
-									</li>
-									<li>
-										<span class="username">dabiaoge</span>
-										<span class="time">2018-01-01</span>
-										<p>橘里橘气</p>
-									</li>
-									<li>
-										<span class="username">dabiaoge</span>
-										<span class="time">2018-01-01</span>
-										<p>陈独秀同学，请你坐下</p>
-									</li>
-								</ul>
-							</div>
-						</li>
-            <li class="comment-detail">
-							<div class="col-md-2">
-								<div class="profile-picture">
-									<img src="picture/hehe.jpg" alt="absolutely" />
-								</div>
-							</div>
-							<div class="col-md-10 info">
-								<span class="username">dabiaoge</span>
-								<span class="time">2018-01-01</span>
-								<p class="content">我说道：“爸爸，你走吧。</p>
-							</div>
-							<div class="comment-like">
-								<span class="like"><span class="glyphicon glyphicon-thumbs-up"></span>（100）</span>
-								<div class="clear-float"></div>
-							</div>
-							<div class="col-md-10 col-md-offset-2 comment-reply">
-								<ul class="reply-list">
-								</ul>
-							</div>
-						</li>
-        </ul>
+        {% endif %}
     </div>
 {% endblock %}
 
@@ -120,25 +70,16 @@
     <div class="hot-articles">
         <h2 class="part-title"><a href="/">热文推荐</a></h2>
         <ul>
-						<li><b><a href="/download/div/2015-04-10/746.html" target="_blank">【活动作品】柠檬绿兔小白个人博客模板30...</a></b>
-							<p>展示的是首页html，博客页面布局格式简单，没有复杂的背景，色彩局部点缀，动态的幻灯片展示，切换卡，标...</p>
-						</li>
-						<li><b><a href="/download/div/2014-02-19/649.html" target="_blank"> 个人博客模板（2014草根寻梦）30...</a></b>
-							<p>2014第一版《草根寻梦》个人博客模板简单、优雅、稳重、大气、低调。专为年轻有志向却又低调的草根站长设...</p>
-						</li>
-						<li><b><a href="/download/div/2013-08-08/571.html" target="_blank">黑色质感时间轴html5个人博客模板30...</a></b>
-							<p>黑色时间轴html5个人博客模板颜色以黑色为主色，添加了彩色作为网页的一个亮点，导航高亮显示、banner图片...</p>
-						</li>
-						<li><b><a href="/download/div/2014-09-18/730.html" target="_blank">情侣博客模板系列之《回忆》Html30...</a></b>
-							<p>Html5+css3情侣博客模板，主题《回忆》，使用css3技术实现网站动画效果，主题《回忆》,分为四个主要部分，...</p>
-						</li>
-						<li><b><a href="/download/div/2014-04-17/661.html" target="_blank">黑色Html5个人博客模板主题《如影随形》30...</a></b>
-							<p>014第二版黑色Html5个人博客模板主题《如影随形》，如精灵般的影子会给人一种神秘的感觉。一张剪影图黑白...</p>
-						</li>
-						<li><b><a href="/jstt/bj/2015-01-09/740.html" target="_blank">【匆匆那些年】总结个人博客经历的这四年…30...</a></b>
-							<p>博客从最初的域名购买，到上线已经有四年的时间了，这四年的时间，有笑过，有怨过，有悔过，有执着过，也...</p>
-						</li>
-					</ul>
+            <li><b><a href="/download/div/2015-04-10/746.html" target="_blank">【活动作品】柠檬绿兔小白个人博客模板30...</a></b>
+                <p>展示的是首页html，博客页面布局格式简单，没有复杂的背景，色彩局部点缀，动态的幻灯片展示，切换卡，标...</p>
+            </li>
+            <li><b><a href="/download/div/2014-02-19/649.html" target="_blank"> 个人博客模板（2014草根寻梦）30...</a></b>
+                <p>2014第一版《草根寻梦》个人博客模板简单、优雅、稳重、大气、低调。专为年轻有志向却又低调的草根站长设...</p>
+            </li>
+            <li><b><a href="/download/div/2013-08-08/571.html" target="_blank">黑色质感时间轴html5个人博客模板30...</a></b>
+                <p>黑色时间轴html5个人博客模板颜色以黑色为主色，添加了彩色作为网页的一个亮点，导航高亮显示、banner图片...</p>
+            </li>
+        </ul>
     </div>
     <div class="hot-articles">
         <h2 class="part-title"><a href="/">随便看看</a></h2>
@@ -164,4 +105,89 @@
 					</ul>
         <div class="ad"><img src="picture/ad01.jpg"></div>
     </div>
+{% endblock %}
+
+{% block custom_js %}
+<script>
+    //添加评论
+    $(document).ready(function(){
+        $("#comment-submit-button").on('click', function(){
+        let content = $("#comment-input").val();
+        if(content === ""){
+            alert("评论不能为空");
+            return
+        }
+        $.ajax({
+            cache: false,
+            type: "POST",
+            url:"{% url 'operations:add_comment' %}",
+            data:{'object_id':{{ article.id }}, "comment_type": 1 ,'content':content},
+            async: true,
+            beforeSend:function(xhr, settings){
+                xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");
+            },
+            success: function(data) {
+                if(data.status === 'fail'){
+                    if(data.message === '用户未登录'){
+                        window.location.href="{% url 'account:login' %}";
+                    }else{
+                        alert(data.message);
+                    }
+                }else if(data.status === 'success'){
+                    window.location.reload(); //刷新当前页面.
+                }
+            },
+        });
+    });
+    });
+</script>
+
+
+    <script src="{% static 'el-pagination/js/el-pagination.js' %}"></script>
+    <script>$.endlessPaginate();</script>
+
+    <script>
+    $(document).ready(function () {
+        $(".favourite_and_like").on("click", function(){
+            let data = {};
+            let this_element = $(this);
+            let class_arr = this_element.attr("class").split(" ");
+            if(this_element.attr("id") === "article_favourite"){
+                data={"object_id":{{ article.id }}, "object_type": "article", "request_type": "favourite"};
+            }else if(this_element.attr("id") === "article_like"){
+                data={"object_id":{{ article.id }}, "object_type": "article", "request_type": "like"};
+            }else if ($.inArray("comment-like-click", class_arr)){
+                let comment_id = this_element.find(".comment-id").text();
+                data={"object_id":comment_id, "object_type": "comment", "request_type": "like"};
+            }
+            if (data === {}){
+                alert("错误提示2");
+            }
+
+            $.ajax({
+                cache: false,
+                type: "POST",
+                url:"{% url 'operations:favourite_like' %}",
+                data:data,
+                async: true,
+                beforeSend:function(xhr, settings){
+                    xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");
+                },
+                success: function(data) {
+                    if(data.status === 'fail'){
+                        if(data.message === '用户未登录'){
+                            window.location.href="{% url 'account:login' %}";
+                        }else{
+                            alert(data.message);
+                        }
+                    }else if(data.status === 'success-on' || data.status === 'success-off'){
+                        window.location.reload(); //刷新当前页面.
+                    }
+                },
+            });
+
+    });
+    });
+    </script>
+
 {% endblock %}

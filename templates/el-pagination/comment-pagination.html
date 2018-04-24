@@ -1,0 +1,22 @@
+{% load el_pagination_tags %}
+
+{% paginate comments_list %}
+    {% for comment in comments_list %}
+        <li class="comment-detail">
+            <div class="col-md-2">
+                <div class="profile-picture">
+                    <img src="{{ MEDIA_URL }}{{ comment.user.user_avatar }}" alt="absolutely" />
+                </div>
+            </div>
+            <div class="col-md-10 info">
+                <span class="username">{{ comment.user.username }}</span>
+                <span class="time">{{ comment.add_time }}</span>
+                <p class="content">{{ comment.content }}</p>
+            </div>
+            <div class="comment-like">
+                <span class="like favourite_and_like comment-like-click"><span class="comment-id" hidden="hidden">{{ comment.id }}</span><span class="glyphicon glyphicon-thumbs-up"></span>（{{ comment.get_like_number }}）</span>
+                <div class="clear-float"></div>
+            </div>
+        </li>
+    {% endfor %}
+{% show_more "更多评论" %}

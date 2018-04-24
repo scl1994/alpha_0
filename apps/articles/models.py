@@ -4,6 +4,7 @@ from django.db import models
 import markdown2
 
 from users.models import UserProfile
+from user_operations.models import Comments, UserLike, UserFavourite
 
 
 class TagsOfArticle(models.Model):
@@ -34,6 +35,9 @@ class SpecialColumn(models.Model):
     def __str__(self):
         return self.title
 
+    def get_articles(self):
+        return self.articles_set.all()
+
 
 class Series(models.Model):
     title = models.CharField(max_length=50, verbose_name="系列名")
@@ -49,6 +53,9 @@ class Series(models.Model):
 
     def __str__(self):
         return self.title
+
+    def get_articles(self):
+        return self.articles_set.all()
 
 
 class Articles(models.Model):
@@ -66,6 +73,8 @@ class Articles(models.Model):
     content_html = models.TextField(null=True, verbose_name="文章内容(html)")
     click_number = models.IntegerField(default=0, verbose_name="点击量")
     can_comment = models.BooleanField(default=True, verbose_name="开放评论")
+    # favourite_number = models.IntegerField(default=0, verbose_name="收藏数")
+    # like_number = models.IntegerField(default=0, verbose_name="赞数")
     add_time = models.DateTimeField(default=datetime.now, verbose_name="添加时间")
     update_time = models.DateTimeField(default=datetime.now, verbose_name="修改时间")
 
@@ -75,6 +84,18 @@ class Articles(models.Model):
 
     def __str__(self):
         return self.title
+
+    def get_favourite_number(self):
+        favourite_number = UserFavourite.objects.filter(object_id=self.id, favourite_type=1).count()
+        return favourite_number
+
+    def get_like_number(self):
+        like_number = UserLike.objects.filter(object_id=self.id, like_type=1).count()
+        return like_number
+
+    def get_comment_number(self):
+        comment_number = Comments.objects.filter(object_id=self.id, comment_type=1).count()
+        return comment_number
 
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):

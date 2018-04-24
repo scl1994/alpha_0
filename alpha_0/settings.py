@@ -45,9 +45,11 @@ INSTALLED_APPS = [
 
     # 分页
     'dj_pagination',
+    'el_pagination',
 
     'users.apps.UsersConfig',
     'articles.apps.ArticlesConfig',
+    'user_operations.apps.UserOperationsConfig'
 ]
 
 MIDDLEWARE = [
@@ -161,7 +163,10 @@ EMAIL_FROM = "alpha_scl@sina.com"
 # 分页
 
 # 默认每页个数
-PAGINATION_DEFAULT_PAGINATION = 1
+PAGINATION_DEFAULT_PAGINATION = 5
 
-
+# 当前页的前后显示的页数
 PAGINATION_DEFAULT_WINDOW = 2
+
+
+EL_PAGINATION_PER_PAGE = 3

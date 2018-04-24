@@ -8,23 +8,22 @@
     <div class="blog-list">
         <h2 class="part-title">最新文章</h2>
         <ul>
-            {% autopaginate articles_list %}
-            {% for article in articles_list %}
+            {% autopaginate series_list 5 %}
+            {% for series in series_list %}
                 <li>
-                <h3 class="blog-title"><a href="" target="_blank" >{{ article.title }}</a></h3>
+                <h3 class="blog-title"><a href="" target="_blank" >{{ series.title }}</a></h3>
                 <div class="blog-info">
                     <span class="blog-pic">
-                        <a href="" title="{{ article.title }}">
-                            <img src="{{ MEDIA_URL }}{{ article.image }}" alt="{{ article.title }}" />
+                        <a href="" title="{{ series.title }}">
+                            <img src="{{ MEDIA_URL }}{{ series.image }}" alt="{{ series.title }}" />
                         </a>
                     </span>
-                    <p>{{ article.abstract }}</p>
+                    <p>{{ series.description }}</p>
                 </div>
                 <div class="author">
-                    <span class="blog-tags "><span class="glyphicon glyphicon-tag" aria-hidden="true"></span>{{ article.author.username }}</span>
-                    <span class="datetime"><span class="glyphicon glyphicon-time" aria-hidden="true"></span>{{ article.add_time }}</span>
-                    <span class="click-num"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>浏览（{{ article.click_number }}）</span>
-                    <span class="read-more"><a href="{% url 'articles:article_detail' article.id %}" class="more">阅读原文>></a></span>
+                    <span class="datetime"><span class="glyphicon glyphicon-time" aria-hidden="true"></span>{{ series.update_time }}</span>
+                    <span class="click-num"><span class="glyphicon glyphicon-file" aria-hidden="true"></span>文章数（{{ series.get_articles.count }}）</span>
+                    <span class="read-more"><a href="{% url 'articles:series_detail' series.id %}" class="more">查看详细>></a></span>
                 </div>
             </li>
             {% endfor %}

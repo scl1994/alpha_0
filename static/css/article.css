@@ -27,6 +27,7 @@
 .detail .article_content img { max-width: 95%; display:block; margin: 0 auto; border-radius: 5px}
 
 .detail .favourite-like {padding: 20px 0; text-align: center}
+.detail .favourite-like .is_active{color: darkred}
 
 /*文章评论*/
 .comments { width: 100%; background: #ffffff; border-radius: 10px; overflow: hidden; margin: 20px 0; padding: 15px}
@@ -45,14 +46,6 @@
 
 .comments .comment-detail .comment-like  {  clear: both}
 .comments .comment-detail .comment-like .like {  float: right; }
-
-.comments .comment-detail .comment-reply li {border-top: solid 1px gray}
-.comments .comment-detail .comment-reply li:nth-child(1) {border-top: solid 2px black; margin-top: 25px}
-
-.comments .comment-detail .comment-reply li .username{float: left}
-.comments .comment-detail .comment-reply li .time{float: right}
-.comments .comment-detail .comment-reply li p{margin-left: 5px; clear: both; padding: 5px}
-
 
 
 /*右侧边栏*/
