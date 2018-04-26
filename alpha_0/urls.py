@@ -29,6 +29,8 @@ urlpatterns = [
 
     url(r'^account/', include("users.urls", namespace="account")),
 
+    url(r'^sources/', include("sources.urls", namespace="sources")),
+
     url(r'^$', TemplateView.as_view(template_name="index.html"), name="index"),
 
     url(r'^operations/', include("user_operations.urls", namespace="operations")),

@@ -49,7 +49,8 @@ INSTALLED_APPS = [
 
     'users.apps.UsersConfig',
     'articles.apps.ArticlesConfig',
-    'user_operations.apps.UserOperationsConfig'
+    'user_operations.apps.UserOperationsConfig',
+    'sources.apps.SourcesConfig',
 ]
 
 MIDDLEWARE = [

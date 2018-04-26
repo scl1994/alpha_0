@@ -1,0 +1,12 @@
+.source { background: #ffffff; overflow: hidden; width: 100%; clear: both; border-radius: 10px; }
+.source .source-list {overflow: hidden; padding: 0 10px}
+.source .source-detail {border-bottom: #ccc 1px solid; border-left: #ccc 1px solid; overflow: hidden; padding:10px 20px 20px}
+.source .source-detail:nth-child(1) { border-left: 0 }
+.source .source-detail img { margin: auto; width: 100%; -moz-transition: all .5s ease; -webkit-transition: all .5s ease; transition: all .5s ease; }
+.source .source-detail b { display: block; width: 100%; overflow: hidden; height: 30px; line-height: 30px; margin: 10px 0; text-overflow: ellipsis; white-space: nowrap;}
+.source .source-detail span { color: #999; height: 76px; display: block; overflow: hidden; }
+.source .source-detail .read-more { padding: 10px 0; display: block; color: #096; }
+.source .part-title { padding: 0 10px; line-height: 40px; height: 40px; font-size: 18px; ; border-bottom: #000 2px solid; position: relative; }
+.source .source-list .source-detail:hover img { transform: scale(1.1) }
+.source .source-detail:hover { background: #fff; box-shadow: #000 1px 1px 10px; }
+.source .top-pic { width: 100%; height: 100px; overflow: hidden; border-radius: 5px; background: #CCC }

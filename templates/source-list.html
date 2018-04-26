@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% load pagination_tags %}
+{% block title %}
+    资源分享
+{% endblock %}
+
+{% block custom_css %}
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+    <link rel="stylesheet" href="{% static 'css/source-list.css' %}">
+{% endblock %}
+
+{% block main_left %}
+    <div class="source">
+        <h2 class="part-title">热门资源</h2>
+
+        <ul class="source-list">
+            {% autopaginate sources_list 16 %}
+            {% for source in sources_list %}
+                <li class="col-md-3 source-detail">
+                    <div class="top-pic"><a href="{% url 'sources:source_detail' source.id %}"><img src="{{ MEDIA_URL }}{{ source.image }}" alt="{{ source.name }}"></a></div>
+                    <a href="{% url 'sources:source_detail' source.id %}"><b>{{ source.name }}</b></a>
+                    <span>{{ source.abstract }}</span>
+                    <a href="{{ source.download_url }}" target="_blank" class="read-more">>>下载链接</a>
+                </li>
+            {% endfor %}
+        </ul>
+
+        {% paginate using 'pagination/pagination.html' %}
+    </div>
+{% endblock %}
+{% block main_right %}
+    <div class="advertisement">
+					<h2 class="part-title">广告位招租</h2>
+					<div class="pics">
+						<img src="{{ MEDIA_URL }}default/ad/ad_01.jpg">
+					</div>
+				</div>
+				<div class="hot-articles">
+					<h2 class="part-title"><a href="/">热文推荐</a></h2>
+					<ul>
+						{% for hot_source in hot_sources %}
+                            <li><b><a href="{% url 'sources:source_detail' hot_source.id %}" target="_blank">{{ hot_source.name }}</a></b>
+							    <p>{{ hot_source.abstract }}</p>
+						    </li>
+						{% endfor %}
+
+					</ul>
+				</div>
+				<div class="hot-articles">
+					<h2 class="part-title"><a href="/">随便看看</a></h2>
+					<ul>
+						{% for recent_source in recent_sources %}
+                            <li><b><a href="{% url 'sources:source_detail' recent_source.id %}" target="_blank">{{ recent_source.name }}</a></b>
+							    <p>{{ recent_source.abstract }}</p>
+						    </li>
+						{% endfor %}
+
+					</ul>
+				</div>
+{% endblock %}

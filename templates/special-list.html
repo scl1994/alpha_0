@@ -11,10 +11,10 @@
             {% autopaginate special_list 5 %}
             {% for special_column in special_list %}
                 <li>
-                <h3 class="blog-title"><a href="" target="_blank" >{{ special_column.title }}</a></h3>
+                <h3 class="blog-title"><a href="{% url 'articles:special_detail' special_column.id %}" target="_blank" >{{ special_column.title }}</a></h3>
                 <div class="blog-info">
                     <span class="blog-pic">
-                        <a href="" title="{{ special_column.title }}">
+                        <a href="{% url 'articles:special_detail' special_column.id %}" title="{{ special_column.title }}">
                             <img src="{{ MEDIA_URL }}{{ special_column.image }}" alt="{{ special_column.title }}" />
                         </a>
                     </span>
@@ -36,31 +36,27 @@
     <div class="advertisement">
         <h2 class="part-title">广告位招租</h2>
         <div class="pics">
-            <img src="picture/ad.jpg">
+            <img src="{{ MEDIA_URL }}default/ad/ad_01.jpg">
         </div>
+    </div>
+    <div class="hot-articles">
+        <h2 class="part-title"><a href="/">近期专栏</a></h2>
+        <ul>
+            {% for recent_special in recent_special_column %}
+                <li><b><a href="{% url 'articles:special_detail' recent_special.id %}" target="_blank">{{ recent_special.title }}</a></b>
+                <p>{{ recent_special.description }}</p>
+            </li>
+            {% endfor %}
+        </ul>
     </div>
     <div class="hot-articles">
         <h2 class="part-title"><a href="/">热文推荐</a></h2>
         <ul>
             {% for hot_article in hot_articles %}
                 <li><b><a href="{% url 'articles:article_detail' hot_article.id %}" target="_blank">{{ hot_article.title }}</a></b>
-                <p>{{ hot_article.abstract }}</p>
-            </li>
+                    <p>{{ hot_article.abstract }}</p>
+                </li>
             {% endfor %}
-        </ul>
-    </div>
-    <div class="hot-articles">
-        <h2 class="part-title"><a href="/">随便看看</a></h2>
-        <ul>
-            <li><b><a href="/jstt/css3/2018-03-20/808.html" target="_blank">十条设计原则教你学会如何设计网页布局!30...</a></b>
-                <p>网页常见的布局有很多种,单列布局,多列布局.其中单列布局是国外很多网站比较常用的.咱们很多站长以及门户...</p>
-            </li>
-            <li><b><a href="/download/div/2018-03-18/807.html" target="_blank">html5个人博客模板主题《绅士》30...</a></b>
-                <p>因其颜色主要是黑白搭配,重点突出的是文字内容,就像是一个颇有内涵的绅士.所以此模板主题为《绅士》,个人...</p>
-            </li>
-            <li><b><a href="/jstt/css3/2018-03-14/806.html" target="_blank">用js+css3来写一个手机栏目导航30...</a></b>
-                <p>有些站长说想做一个手机适应的网站,但是导航太难了,如果要使用框架的话,代码非常多,冗余.再用dreamwear打...</p>
-            </li>
         </ul>
     </div>
 {% endblock %}

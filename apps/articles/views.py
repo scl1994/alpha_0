@@ -9,7 +9,6 @@ class ArticleDetailView(View):
     def get(self, request, article_id):
         has_favourite = False
         has_like = False
-        comment_like = False
         if request.user.is_authenticated():
             if UserFavourite.objects.filter(user=request.user, object_id=article_id, favourite_type=1):
                 has_favourite = True
@@ -24,44 +23,59 @@ class ArticleDetailView(View):
         article.save()
 
         tags = article.tags.all()
+        hot_articles = Articles.objects.all().order_by("-click_number")[:5]
+        recent_articles = Articles.objects.all().order_by("-add_time")[:5]
         comments_list = Comments.objects.filter(comment_type=1, object_id=article_id).order_by("-add_time")
         if request.is_ajax():
             template_name = page_template
         return render(request, template_name, {"article": article, "tags": tags, "comments_list": comments_list,
                                                "page_template": page_template, "has_favourite": has_favourite,
-                                               "has_like": has_like})
+                                               "has_like": has_like, "hot_articles": hot_articles,
+                                               "recent_articles": recent_articles})
 
 
 class ArticleAllView(View):
     def get(self, request):
         articles_list = Articles.objects.all().order_by("-add_time")
-
+        recent_articles = Articles.objects.all().order_by("-add_time")[:5]
         hot_articles = Articles.objects.all().order_by("-click_number")[:5]
-        return render(request, 'article-list.html', {"articles_list": articles_list,
-                                                     "hot_articles": hot_articles})
+        return render(request, 'article-list.html', {"articles_list": articles_list, "hot_articles": hot_articles,
+                                                     "recent_articles": recent_articles})
 
 
 class SeriesAllView(View):
     def get(self, request):
         series = Series.objects.all().order_by("-add_time")
-        return render(request, "series-list.html", {"series_list": series})
+        hot_articles = Articles.objects.all().order_by("-click_number")[:5]
+        recent_series = series[:5]
+        return render(request, "series-list.html", {"series_list": series, "hot_articles": hot_articles,
+                                                    "recent_series_list": recent_series})
 
 
 class SeriesDetailView(View):
     def get(self, request, series_id):
         series = get_object_or_404(Series, id=series_id)
         articles = series.get_articles().order_by("-add_time")
-        return render(request, "article-list.html", {"articles_list": articles})
+        hot_articles = Articles.objects.all().order_by("-click_number")[:5]
+        recent_articles = Articles.objects.all().order_by("-add_time")[:5]
+        return render(request, "article-list.html", {"articles_list": articles, "hot_articles": hot_articles,
+                                                     "recent_articles": recent_articles})
 
 
 class SpecialAllView(View):
     def get(self, request):
         special_list = SpecialColumn.objects.all().order_by("-add_time")
-        return render(request, "special-list.html", {"special_list": special_list})
+        hot_articles = Articles.objects.all().order_by("-click_number")[:5]
+        recent_special_column = special_list[:5]
+        return render(request, "special-list.html", {"special_list": special_list, "hot_articles": hot_articles,
+                                                     "recent_special_column": recent_special_column})
 
 
 class SpecialDetailView(View):
     def get(self, request, special_id):
-        series = get_object_or_404(SpecialColumn, id=special_id)
-        articles = series.get_articles().order_by("-add_time")
-        return render(request, "article-list.html", {"articles_list": articles})
+        special = get_object_or_404(SpecialColumn, id=special_id)
+        articles = special.get_articles().order_by("-add_time")
+        hot_articles = Articles.objects.all().order_by("-click_number")[:5]
+        recent_articles = Articles.objects.all().order_by("-add_time")[:5]
+        return render(request, "article-list.html", {"articles_list": articles, "hot_articles": hot_articles,
+                                                     "recent_articles": recent_articles})

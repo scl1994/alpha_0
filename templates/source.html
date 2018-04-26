@@ -1,0 +1,175 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load el_pagination_tags %}
+{% block custom_css %}
+    <link href="{% static 'css/index.css' %}" rel="stylesheet">
+    <link href="{% static 'css/article.css' %}" rel="stylesheet">
+    <link href="{% static 'css/source.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block main_left %}
+    <div class="detail">
+        <div class="article-body">
+            <h2 class="page-path">您现在的位置是：<a href="/">首页</a>&nbsp;>&nbsp;<a href="/jstt/">学无止境</a>&nbsp;>&nbsp;<a href="/jstt/web/">网站建设</a></h2>
+            <h3 class="article-title"><b>{{ source.name }}</b></h3>
+            <div class="article-author">
+                <span class="author-name"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>{{ source.author.username }}</span>
+                <span class="create-time"><span class="glyphicon glyphicon-time" aria-hidden="true"></span>{{ source.add_time }}</span>
+                <span class="click-numbers"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>浏览（{{ source.click_number }}）</span>
+            </div>
+            <div class="abstract"><strong>简介</strong>{{ source.abstract }}</div>
+            <div class="article-cover">
+                <a href="{{ source.download_url }}"><img src="{{ MEDIA_URL }}{{ source.image }}" alt="source-cover"></a>
+            </div>
+            <div class="article_content">
+                {{ source.description_html | safe }}
+            </div>
+            <div class="text-center source-download">
+                <button class="btn btn-default" type="submit"><a href="{{ source.download_url }}" target="_blank" >下载</a></button>
+            </div>
+            <div class="favourite-like">
+                <button type="button" id="article_favourite" class="btn btn-success btn-lg favourite_and_like {% if has_favourite %}is_active{% endif %}">
+                    <b><span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>收藏（{{ source.get_favourite_number }}）</b>
+                </button>
+                <button type="button" id="article_like" class="btn btn-primary btn-lg favourite_and_like {% if has_like %}is_active{% endif %}">
+                    <b><span class="glyphicon glyphicon-heart-empty" aria-hidden="true"></span>点赞（{{ source.get_like_number }}）</b>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="comments">
+        {% if source.can_comment %}
+            <form class="comment-input" action="">
+                <div class="form-group">
+                    <label class="part-title" for="comment-input">评 论（{{ source.get_comment_number }}）</label>
+                    <textarea class="form-control" id="comment-input" rows="5" placeholder="来说两句吧"></textarea>
+                </div>
+                <button type="button" id="comment-submit-button" class="btn btn-success btn-lg">评论</button>
+                <div class="clear-float"></div>
+            </form>
+            <ul class="comments-list">
+                {% include page_template %}
+            </ul>
+        {% else %}
+            <div class="comments">
+                <p class="text-center">当前文章暂未开放评论</p>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}
+
+{% block main_right %}
+<div class="advertisement">
+					<h2 class="part-title">广告位招租</h2>
+					<div class="pics">
+						<img src="{{ MEDIA_URL }}default/ad/ad_01.jpg">
+					</div>
+				</div>
+				<div class="hot-articles">
+					<h2 class="part-title"><a href="/">热门资源</a></h2>
+					<ul>
+						{% for hot_source in hot_sources %}
+						    <li><b><a href="{% url 'sources:source_detail' hot_source.id %}" target="_blank">{{ hot_source.name }}</a></b>
+							    <p>{{ hot_source.abstract }}</p>
+						    </li>
+						{% endfor %}
+
+					</ul>
+				</div>
+				<div class="hot-articles">
+					<h2 class="part-title"><a href="/">最新资源</a></h2>
+					<ul>
+                        {% for recent_source in recent_sources %}
+                            <li><b><a href="{% url 'sources:source_detail' recent_source.id %}" target="_blank">{{ recent_source.name }}</a></b>
+							    <p>{{ recent_source.abstract }}</p>
+						    </li>
+                        {% endfor %}
+					</ul>
+				</div>
+{% endblock %}
+
+{% block custom_js %}
+    <script src="{% static 'el-pagination/js/el-pagination.js' %}"></script>
+    <script>$.endlessPaginate();</script>
+
+    <script>
+    //添加评论
+    $(document).ready(function(){
+        $("#comment-submit-button").on('click', function(){
+            //获得表单中填写的内容
+            let content = $("#comment-input").val();
+            if(content === ""){
+                alert("评论不能为空");
+                return
+            }
+        $.ajax({
+            cache: false,
+            type: "POST",
+            url:"{% url 'operations:add_comment' %}",
+            data:{'object_id':{{ source.id }}, "comment_type": 2 ,'content':content},
+            async: true,
+            beforeSend:function(xhr, settings){
+                xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");
+            },
+            success: function(data) {
+                if(data.status === 'fail'){
+                    if(data.message === '用户未登录'){
+                        window.location.href="{% url 'account:login' %}";
+                    }else{
+                        alert(data.message);
+                    }
+                }else if(data.status === 'success'){
+                    window.location.reload(); //刷新当前页面.
+                }
+            },
+        });
+    });
+    });
+    </script>
+
+    <script>
+    $(document).ready(function () {
+        $(".favourite_and_like").on("click", function(){
+            let data = {};
+            let this_element = $(this);
+            let class_arr = this_element.attr("class").split(" ");
+            if(this_element.attr("id") === "article_favourite"){
+                data={"object_id":{{ source.id }}, "object_type": "source", "request_type": "favourite"};
+            }else if(this_element.attr("id") === "article_like"){
+                data={"object_id":{{ source.id }}, "object_type": "source", "request_type": "like"};
+            }else if ($.inArray("comment-like-click", class_arr)){
+                let comment_id = this_element.find(".comment-id").text();
+                data={"object_id":comment_id, "object_type": "comment", "request_type": "like"};
+            }
+            if (data === {}){
+                alert("错误提示2");
+            }
+
+            $.ajax({
+                cache: false,
+                type: "POST",
+                url:"{% url 'operations:favourite_like' %}",
+                data:data,
+                async: true,
+                beforeSend:function(xhr, settings){
+                    xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");
+                },
+                success: function(data) {
+                    if(data.status === 'fail'){
+                        if(data.message === '用户未登录'){
+                            window.location.href="{% url 'account:login' %}";
+                        }else{
+                            alert(data.message);
+                        }
+                    }else if(data.status === 'success-on' || data.status === 'success-off'){
+                        window.location.reload(); //刷新当前页面.
+                    }
+                },
+            });
+
+    });
+    });
+    </script>
+
+{% endblock %}

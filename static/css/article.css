@@ -45,8 +45,8 @@
 .comments .comment-detail .info .content {clear: both; margin-top: 30px;}
 
 .comments .comment-detail .comment-like  {  clear: both}
-.comments .comment-detail .comment-like .like {  float: right; }
-
+.comments .comment-detail .comment-like .like {  float: right; cursor: pointer }
 
 /*右侧边栏*/
 .main-right .advertisement {  margin:0;}
+
