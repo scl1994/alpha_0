@@ -20,19 +20,11 @@ class UserProfile(AbstractUser):
     def __str__(self):
         return self.username
 
+    def get_favourite_number(self):
+        return self.userfavourite_set.all().count()
 
-# class EmailVerifyCode(models.Model):
-#     code = models.CharField(max_length=50, verbose_name="验证码")
-#     email = models.EmailField(max_length=50, verbose_name="邮箱")
-#     send_type = models.CharField(verbose_name="验证码类型", choices=(("register", "注册"), ("forget_pwd", "找回密码"),
-#                                                                 ("update_email", "修改邮箱")), max_length=20)
-#     send_time = models.DateTimeField(verbose_name="发送时间", default=datetime.now)
-#     expiration = models.IntegerField(verbose_name="有效时间(秒)", default=3600)
-#     be_used = models.BooleanField(default=True, verbose_name='是否可用')
-#
-#     class Meta:
-#         verbose_name = "邮箱验证码"
-#         verbose_name_plural = verbose_name
-#
-#     def __str__(self):
-#         return '{0}({1})'.format(self.code, self.email)
+    def get_comments_number(self):
+        return self.comments_set.all().count()
+
+    def get_like_number(self):
+        return self.userlike_set.all().count()

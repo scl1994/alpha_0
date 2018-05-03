@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "c1d14caf688aab5bb858ec69535bd5a4d1635b7d172c210a3b65da7e4a6745f6"
+            "sha256": "d68470ae67e6e851239536655590800045afa1c6c0555497521bfbaef33ca604"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -30,6 +30,7 @@
                 "sha256:4d398c7b02761e234bbde490aea13ea94cb539ceeb72805b72303f348682f2eb"
             ],
             "index": "pypi",
+            "markers": "python_version >= '3.0'",
             "version": "==1.11.12"
         },
         "django-el-pagination": {

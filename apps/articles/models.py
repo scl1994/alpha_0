@@ -111,3 +111,7 @@ class Articles(models.Model):
         self.update_time = datetime.now()
 
         super(Articles, self).save(force_insert=False, force_update=False, using=None, update_fields=None)
+
+    def get_tags_string(self):
+        tags = [tag.name for tag in self.tags.all()]
+        return ",".join(tags)

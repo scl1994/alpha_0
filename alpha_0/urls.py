@@ -19,6 +19,7 @@ from django.views.static import serve
 from django.views.generic import TemplateView
 from django.conf import settings
 
+from users.views import IndexView
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -31,7 +32,7 @@ urlpatterns = [
 
     url(r'^sources/', include("sources.urls", namespace="sources")),
 
-    url(r'^$', TemplateView.as_view(template_name="index.html"), name="index"),
+    url(r'^$', IndexView.as_view(), name="index"),
 
     url(r'^operations/', include("user_operations.urls", namespace="operations")),
 ]

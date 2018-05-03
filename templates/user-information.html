@@ -1,0 +1,126 @@
+{% extends 'user-center-base.html' %}
+{% load staticfiles %}
+{% block title %}
+用户信息 - Alpha
+{% endblock %}
+
+{% block main_left %}
+<div class="user-profile">
+    <div class="row">
+        <div class="col-md-3 left-part">
+            <form id="avatar-form" action="{% url 'account:avatar_upload' %}" enctype="multipart/form-data" method="POST">
+                <div class="pic-box">
+                    <img id="user-avatar-show" src="{{ MEDIA_URL }}{{ request.user.user_avatar }}" alt="">
+                </div>
+                <label for="user-avatar-upload" >
+                    <input type="file" id="user-avatar-upload" name="user_avatar">
+                    <span class="upload">上传头像</span>
+                </label>
+                <div id="submit-form">
+                    <button type="button" id="submit-avatar" class="btn btn-info">保存头像</button>
+                </div>
+                {% csrf_token %}
+            </form>
+        </div>
+        <div class="col-md-9 right-part">
+            <div class="row user-info">
+                <div class="col-md-3">
+                    <p><b>用户名：</b></p>
+                </div>
+                <div class="col-md-9">
+                    <p>{{ request.user.username }}</p>
+                </div>
+            </div>
+            <div class="row user-info">
+                <div class="col-md-3">
+                    <p><b>邮箱：</b></p>
+                </div>
+                <div class="col-md-9">
+                    <p>{{ request.user.email }}</p>
+                </div>
+            </div>
+            <div class="row user-info">
+                <div class="col-md-3">
+                    <p><b>注册时间：</b></p>
+                </div>
+                <div class="col-md-9">
+                    <p>{{ request.user.add_time }}</p>
+                </div>
+            </div>
+            <div class="row user-info">
+                <div class="col-md-3">
+                    <p><b>收藏数：</b></p>
+                </div>
+                <div class="col-md-9">
+                    <p>{{ request.user.get_favourite_number }}个</p>
+                </div>
+            </div>
+            <div class="row user-info">
+                <div class="col-md-3">
+                    <p><b>点赞数：</b></p>
+                </div>
+                <div class="col-md-9">
+                    <p>{{ request.user.get_like_number }}次</p>
+                </div>
+            </div>
+            <div class="row user-info">
+                <div class="col-md-3">
+                    <p><b>评论数：</b></p>
+                </div>
+                <div class="col-md-9">
+                    <p>{{ request.user.get_comments_number }}条</p>
+                </div>
+            </div>
+            <div class="row user-info">
+                <div class="col-md-3">
+                    <p><b>修改密码：</b></p>
+                </div>
+                <div class="col-md-9">
+                    <a href="{% url 'account:change_pwd' %}"><button class="btn btn-info">修改密码</button></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+{% block custom_js %}
+    <script>
+    $(document).ready(function(){
+        $("#submit-avatar").on("click", function(){
+            let avatar = $("#user-avatar-upload").val();
+            if (avatar === ""){
+                alert("请上传头像之后再保存！");
+                return;
+            }else{
+                let avatarForm = document.getElementById("avatar-form");
+                let formData = new FormData(avatarForm);
+                $.ajax(
+                    {
+                        cache: false,
+                        type: "POST",
+                        url:"{% url 'account:avatar_upload' %}",
+                        data: formData,
+                        async: true,
+                        processData: false,  // 不处理数据
+                        contentType: false,  // 不设置内容类型
+                        beforeSend:function(xhr){
+                            xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");
+                        },
+                        success: function(data) {
+                            if(data.status === 'fail'){
+                                alert(data.message);
+                            }else if(data.status === 'success'){
+                                window.location.reload(); //刷新当前页面.
+                            }
+                        },
+                    }
+                );
+            }
+
+
+        });
+    })
+    </script>
+{% endblock %}

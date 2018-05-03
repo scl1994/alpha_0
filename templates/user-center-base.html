@@ -8,9 +8,10 @@
 
 
 	<title>
-        {% block title %}Alpha{% endblock %}
+        {% block title %}用户中心 - Alpha{% endblock %}
     </title>
 
+    <link rel="stylesheet" href="{% static 'css/user-center.css' %}">
 	<link href="{% static 'css/bootstrap/bootstrap.min.css' %}" rel="stylesheet">
     <link href="{% static 'css/markdown-css/fruity.css' %}" rel="stylesheet">
 	{% block custom_css %}{% endblock %}
@@ -100,29 +101,62 @@
 		<div class="row">
 
 			<div class="col-md-9 main-left">
+                {% block main_left %}
 
-				{% block main_left %}
-
-				{% endblock %}
+                {% endblock %}
 			</div>
 
 			<div class="col-md-3 main-right">
-				{% block main_right %}
-				{% endblock %}
+				<div class="info-nav">
+                    <ul class="nav-list">
+                        <li><a href="{% url 'account:user_information' %}">个人信息</a></li>
+                        <li><a href="{% url 'account:favourite_articles' %}">收藏文章</a></li>
+                        <li><a href="{% url 'account:favourite_sources' %}">收藏资源</a></li>
+                    </ul>
+                </div>
 			</div>
 		</div>
 	</div>
 </mainpart>
 
 
-<nav class="navbar navbar-inverse navbar-static-top">
-	<div class="container">
-		<div class="h4 text-center" style="color: white">Alpha</div>
-		<div class="h4 text-center" style="color: white">Design by sclfri, 2018.01.01</div>
-	</div>
-</nav>
-<script src="{% static 'js/bootstrap/jquery.min.js' %}"></script>
+<script src="{% static 'js/bootstrap/jquery-3.31.min.js' %}"></script>
 <script src="{% static 'js/bootstrap/bootstrap.min.js' %}"></script>
+<script>
+    $(document).ready(function () {
+        $(".user-favourite").on("click", function(){
+            let this_element = $(this);
+
+            let object_id = this_element.find(".object-id").text();
+            let object_type = this_element.find(".object-type").text();
+
+            let data = {"object_id": object_id, "object_type": object_type, "request_type": "favourite"};
+
+            $.ajax({
+                cache: false,
+                type: "POST",
+                url:"{% url 'operations:favourite_like' %}",
+                data:data,
+                async: true,
+                beforeSend:function(xhr, settings){
+                    xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");
+                },
+                success: function(data) {
+                    if(data.status === 'fail'){
+                        if(data.message === '用户未登录'){
+                            window.location.href="{% url 'account:login' %}";
+                        }else{
+                            alert(data.message);
+                        }
+                    }else if(data.status === 'success-on' || data.status === 'success-off'){
+                        window.location.reload(); //刷新当前页面.
+                    }
+                },
+            });
+
+    });
+    });
+</script>
 {% block custom_js %}{% endblock %}
 </body>
 </html>

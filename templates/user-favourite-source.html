@@ -1,0 +1,39 @@
+{% extends 'user-center-base.html' %}
+{% load staticfiles %}
+{% load pagination_tags %}
+{% block title %}
+    收藏资源 - Alpha
+{% endblock %}
+{% block main_left %}
+<div class="blog-list">
+
+    <ul>
+        {% autopaginate favourite_sources 10 %}
+        {% for favourite_source in favourite_sources %}
+            <li>
+                <h3 class="blog-title"><a href="{% url 'sources:source_detail' favourite_source.id %}" target="_blank" >{{ favourite_source.name }}</a></h3>
+                <div class="blog-info">
+                        <span class="blog-pic">
+                            <a href="{% url 'sources:source_detail' favourite_source.id %}" title="{{ favourite_source.name }}" target="_blank" >
+                                <img src="{{ MEDIA_URL }}{{ favourite_source.image }}" alt="{{ favourite_source.name }}" />
+                            </a>
+                        </span>
+                    <p>{{ favourite_source.abstract }}</p>
+                </div>
+                <div class="author">
+                    <span class="datetime"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>{{ favourite_source.author }}</span>
+                    <span class="datetime"><span class="glyphicon glyphicon-time" aria-hidden="true"></span>{{ favourite_source.add_time }}</span>
+                    <span class="click-num"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>浏览（{{ favourite_source.click_number }}）</span>
+                    <span class="user-favourite">
+                        <b><span class="glyphicon glyphicon-star" aria-hidden="true"></span>取消收藏</b>
+                        <span class="object-id" hidden="hidden">{{ favourite_source.id }}</span>
+                        <span class="object-type" hidden="hidden">source</span>
+                    </span>
+                </div>
+            </li>
+        {% endfor %}
+
+    </ul>
+    {% paginate using 'pagination/pagination.html' %}
+</div>
+{% endblock %}

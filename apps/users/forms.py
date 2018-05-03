@@ -72,3 +72,19 @@ class ChangePwdForm(forms.Form):
             if password_1 != password_2:
                 raise ValidationError("两次密码不相同")
             return password_2
+
+
+class AvatarUploadForm(forms.ModelForm):
+    def clean_user_avatar(self):
+        avatar = self.cleaned_data.get("user_avatar")
+        file_size = avatar.size
+
+        # 文件等格式有ImageField进行验证，这里只是检验文件的大小
+        if file_size > 1024 * 1024:
+            raise ValidationError("图片大小必须小于1M")
+        else:
+            return avatar
+
+    class Meta:
+        model = UserProfile
+        fields = ["user_avatar"]

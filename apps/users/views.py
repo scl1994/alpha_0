@@ -1,13 +1,21 @@
-from django.shortcuts import render
+import json
+
+from django.shortcuts import render, get_object_or_404
 from django.views.generic.base import View
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.backends import ModelBackend
 from django.contrib.auth.hashers import make_password
+from django.http import HttpResponseRedirect, HttpResponse
+from django.core.urlresolvers import reverse
 
 from .models import UserProfile
-from .forms import LoginForm, RegisterForm, ForgetPwdForm, ChangePwdForm
+from .forms import LoginForm, RegisterForm, ForgetPwdForm, ChangePwdForm, AvatarUploadForm
+from sources.models import Sources
+from articles.models import Articles
 from utils.send_email import send_email
 from utils.token import token_confirm
+from user_operations.models import UserFavourite
 
 
 class CustomBackends(ModelBackend):
@@ -35,7 +43,11 @@ class LoginView(View):
             if user is not None:
                 if user.is_activated:
                     login(request, user)
-                    return render(request, "index.html", {})
+                    # 注意这里由于首页需要各种数据，如果直接render跳转的首页，页面将缺少各种信息
+                    #  所以应该使用重定向，让处理index的view来处理这个跳转
+                    next_url = request.POST.get("next", "") \
+                        if request.POST.get("next", "") is not "" else reverse("index")
+                    return HttpResponseRedirect(next_url)
                 else:
                     return render(request, "login.html", {"message": "邮箱尚未激活，进检查邮件，进入对应链接进行激活"})
             else:
@@ -132,3 +144,62 @@ class ChangePwdView(View):
         else:
             email = request.POST.get("email", "")
             return render(request, "change-pwd.html", {"change_pwd_form": change_pwd_form, "user_email": email})
+
+
+class IndexView(View):
+    def get(self, request):
+        hot_sources = Sources.objects.all().order_by("-click_number")[:4]
+        recent_sources = Sources.objects.all().order_by("-add_time")[:5]
+        recent_articles = Articles.objects.all().order_by("-add_time")[:15]
+        hot_articles = Articles.objects.all().order_by("-click_number")[:5]
+
+        return render(request, "index.html", {"hot_sources": hot_sources, "recent_sources": recent_sources,
+                                              "recent_articles": recent_articles, "hot_articles": hot_articles})
+
+
+class UserCenterInformationView(LoginRequiredMixin, View):
+    # 如果没登录重定向到登录地址
+    login_url = '/account/login'
+
+    def get(self, request):
+        return render(request, "user-information.html", {})
+
+
+class AvatarUploadView(LoginRequiredMixin, View):
+    login_url = '/account/login'
+
+    def post(self, request):
+        upload_form = AvatarUploadForm(request.POST, request.FILES, instance=request.user)
+        if upload_form.is_valid():
+            avatar = upload_form.cleaned_data.get("user_avatar")
+            request.user.user_avatar = avatar
+            request.user.save()
+            return HttpResponse(json.dumps({"status": "success"}), content_type="application/json")
+        else:
+            return HttpResponse(json.dumps({"status": "fail",
+                                            "message": upload_form.errors.get("user_avatar", "上传出错")}),
+                                content_type="application/json")
+
+
+class ArticleFavouriteListView(LoginRequiredMixin, View):
+    login_url = '/account/login'
+
+    def get(self, request):
+        favourite_articles_ids = UserFavourite.objects.filter(user=request.user, favourite_type=1)
+        favourite_articles = [
+            Articles.objects.filter(id=x.object_id).first() for x in favourite_articles_ids
+        ]
+
+        return render(request, "user-favourite-article.html", {"favourite_articles": favourite_articles})
+
+
+class SourceFavouriteListView(LoginRequiredMixin, View):
+    login_url = '/account/login'
+
+    def get(self, request):
+        favourite_sources_ids = UserFavourite.objects.filter(user=request.user, favourite_type=2)
+        favourite_sources = [
+            Sources.objects.filter(id=x.object_id).first() for x in favourite_sources_ids
+        ]
+
+        return render(request, "user-favourite-source.html", {"favourite_sources": favourite_sources})

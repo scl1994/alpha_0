@@ -32,6 +32,11 @@
                         <label for="password">密码</label>
                         <input type="password" name="password" class="form-control {% if login_form.errors.password %}error-input{% endif %}" id="password" placeholder="密码" required="required">
                     </div>
+                    <!--记住重定向过来的url的地址-->
+                    <div class="form-group" hidden="hidden">
+                        <label for="next-url" hidden="hidden">重定向地址</label>
+                        <input type="text" name="next" id="next-url" hidden="hidden" value="{{ request.GET.next }}">
+                    </div>
                     {% if login_form.errors.password %}
                         <div class="error-message">
                             <h4><b>{{ login_form.errors.password.0 }}</b></h4>
