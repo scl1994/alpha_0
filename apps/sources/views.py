@@ -7,8 +7,6 @@ from user_operations.models import UserLike, UserFavourite, Comments
 
 class SourcesDetailView(View):
     def get(self, request, source_id):
-        template_name = 'source.html'
-        page_template = 'el-pagination/comment-pagination.html'
         has_favourite = False
         has_like = False
         if request.user.is_authenticated():
@@ -22,13 +20,12 @@ class SourcesDetailView(View):
         source.save()
 
         comments_list = Comments.objects.filter(object_id=source_id, comment_type=2).order_by("-add_time")
-        if request.is_ajax():
-            template_name = page_template
+
         hot_sources = Sources.objects.all().order_by("-click_number")[:5]
         recent_sources = Sources.objects.all().order_by("-add_time")[:5]
-        return render(request, template_name, {"source": source, "has_favourite": has_favourite, "has_like": has_like,
-                                               "comments_list": comments_list, "page_template": page_template,
-                                               "hot_sources": hot_sources, "recent_sources": recent_sources})
+        return render(request, "source.html", {"source": source, "has_favourite": has_favourite, "has_like": has_like,
+                                               "comments_list": comments_list, "hot_sources": hot_sources,
+                                               "recent_sources": recent_sources})
 
 
 class SourcesAllView(View):

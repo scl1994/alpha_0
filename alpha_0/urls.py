@@ -16,7 +16,6 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.contrib import admin
 from django.views.static import serve
-from django.views.generic import TemplateView
 from django.conf import settings
 
 from users.views import IndexView
@@ -25,6 +24,9 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
 
     url(r'media/(?P<path>.*)$', serve, {"document_root": settings.MEDIA_ROOT}),
+
+    # 关闭debug模式之后，django不再自动代理静态文件，需要手动为其配置服务
+    url(r'static/(?P<path>.*)$', serve, {"document_root": settings.STATIC_ROOT}),
 
     url(r'^articles/', include('articles.urls', namespace='articles')),
 
@@ -37,3 +39,7 @@ urlpatterns = [
     url(r'^operations/', include("user_operations.urls", namespace="operations")),
 ]
 
+
+# 全局404页面及500页面配置
+handler404 = "user_operations.view.page_not_found"
+handler500 = "user_operations.views.server_error"

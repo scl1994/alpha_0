@@ -1,6 +1,6 @@
 import json
 
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render
 from django.views.generic.base import View
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.mixins import LoginRequiredMixin

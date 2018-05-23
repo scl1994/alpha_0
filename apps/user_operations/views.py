@@ -1,6 +1,6 @@
 import json
 
-from django.shortcuts import render
+from django.shortcuts import render, render_to_response
 from django.views.generic import View
 from django.http import HttpResponse
 
@@ -81,3 +81,15 @@ class FavouriteAndLikeView(View):
                                 content_type="application/json")
 
 
+def page_not_found(request):
+    """全局404页面处理函数"""
+    response = render_to_response("404.html", {})
+    response.status_code = 404
+    return response
+
+
+def server_error(request):
+    """全局500页面处理函数"""
+    response = render_to_response("500.html", {})
+    response.status_code = 500
+    return response

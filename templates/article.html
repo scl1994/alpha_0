@@ -123,7 +123,7 @@
             url:"{% url 'operations:add_comment' %}",
             data:{'object_id':{{ article.id }}, "comment_type": 1 ,'content':content},
             async: true,
-            beforeSend:function(xhr, settings){
+            beforeSend:function(xhr){
                 xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");
             },
             success: function(data) {
@@ -141,11 +141,6 @@
     });
     });
 </script>
-
-
-    <script src="{% static 'el-pagination/js/el-pagination.js' %}"></script>
-    <script>$.endlessPaginate();</script>
-
     <script>
     $(document).ready(function () {
         $(".favourite_and_like").on("click", function(){
@@ -160,9 +155,6 @@
                 let comment_id = this_element.find(".comment-id").text();
                 data={"object_id":comment_id, "object_type": "comment", "request_type": "like"};
             }
-            if (data === {}){
-                alert("错误提示2");
-            }
 
             $.ajax({
                 cache: false,
@@ -170,7 +162,7 @@
                 url:"{% url 'operations:favourite_like' %}",
                 data:data,
                 async: true,
-                beforeSend:function(xhr, settings){
+                beforeSend:function(xhr){
                     xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");
                 },
                 success: function(data) {

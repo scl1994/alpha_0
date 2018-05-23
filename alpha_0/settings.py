@@ -25,9 +25,9 @@ sys.path.append(os.path.join(BASE_DIR, "apps"))
 SECRET_KEY = '7xy@ab=y4)o7r)pxj4yq54(0gb09c$c$1o$x$3g2$2!!#d*=)8'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 AUTH_USER_MODEL = "users.UserProfile"
 
@@ -45,7 +45,6 @@ INSTALLED_APPS = [
 
     # 分页
     'dj_pagination',
-    'el_pagination',
 
     'users.apps.UsersConfig',
     'articles.apps.ArticlesConfig',
@@ -144,6 +143,8 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
+
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
@@ -168,6 +169,3 @@ PAGINATION_DEFAULT_PAGINATION = 5
 
 # 当前页的前后显示的页数
 PAGINATION_DEFAULT_WINDOW = 2
-
-
-EL_PAGINATION_PER_PAGE = 3
