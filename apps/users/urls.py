@@ -1,11 +1,13 @@
 from django.conf.urls import url
 
-from .views import LoginView, RegisterView, ActiveView, ForgetPasswordView, ForgetVerifyView, ChangePwdView, \
+from .views import LoginView, LogoutView, RegisterView, ActiveView, ForgetPasswordView, ForgetVerifyView, ChangePwdView, \
     UserCenterInformationView, AvatarUploadView, ArticleFavouriteListView, SourceFavouriteListView
 
 
 urlpatterns = [
     url(r'^login/$', LoginView.as_view(), name="login"),
+
+    url(r'^logout/$', LogoutView.as_view(), name="logout"),
 
     url(r'^register/$', RegisterView.as_view(), name="register"),
 

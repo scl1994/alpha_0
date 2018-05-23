@@ -4,8 +4,8 @@
 
 .detail .article-body { padding: 20px }
 
-.detail .page-path { line-height: 25px; height: 25px; font-size: 18px; ; border-bottom: #000 2px solid; }
-.detail .page-path a { font-weight: normal; }
+/*.detail .page-path { line-height: 25px; height: 25px; font-size: 18px; ; border-bottom: #000 2px solid; }*/
+/*.detail .page-path a { font-weight: normal; }*/
 
 .detail .article-title { font-size: 28px; font-weight: normal; padding: 20px 0; color: #333; }
 
@@ -38,11 +38,12 @@
 .comments .comments-list li {list-style: none}
 .comments .comments-list { padding: 10px; overflow: hidden; margin-top: 25px; border-top: solid 2px black }
 .comments .comment-detail { border-bottom: #ccc 1px solid; margin-bottom: 10px; overflow: hidden; padding: 10px}
-.comments .comment-detail .profile-picture {overflow: hidden; width: 80%; height: auto; display: block; background: #333333;  border-radius: 50%; border:solid 1px #2b2b2b;}
-.comments .comment-detail .profile-picture img { width: 100%; height: auto;}
+.comments .comment-detail .profile-picture {display: block; position:relative; width:100%; height:0; font-size:0;line-height:0; padding:0 0 100%;}
+.comments .comment-detail .profile-picture img {position:absolute; width:100%; height:100%;border-radius: 50%; border: solid 1px black}
+
 .comments .comment-detail .info .username {float: left}
 .comments .comment-detail .info .time {float: right}
-.comments .comment-detail .info .content {clear: both; margin-top: 30px;}
+.comments .comment-detail .info .content {clear: both; padding-top: 5px ; border-top: solid 1px gray}
 
 .comments .comment-detail .comment-like  {  clear: both}
 .comments .comment-detail .comment-like .like {  float: right; cursor: pointer }

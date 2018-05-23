@@ -2,7 +2,7 @@ import json
 
 from django.shortcuts import render, get_object_or_404
 from django.views.generic.base import View
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.backends import ModelBackend
 from django.contrib.auth.hashers import make_password
@@ -54,6 +54,12 @@ class LoginView(View):
                 return render(request, "login.html", {"message": "邮箱或密码错误"})
         else:
             return render(request, "login.html", {"login_form": login_form})
+
+
+class LogoutView(LoginRequiredMixin, View):
+    def get(self, request):
+        logout(request)
+        return HttpResponseRedirect(reverse("index"))
 
 
 class RegisterView(View):
@@ -129,9 +135,6 @@ class ForgetVerifyView(View):
 
 
 class ChangePwdView(View):
-    def get(self, request):
-        return render(request, "change-pwd.html")
-
     def post(self, request):
         change_pwd_form = ChangePwdForm(request.POST)
         if change_pwd_form.is_valid():
@@ -203,3 +206,4 @@ class SourceFavouriteListView(LoginRequiredMixin, View):
         ]
 
         return render(request, "user-favourite-source.html", {"favourite_sources": favourite_sources})
+

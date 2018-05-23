@@ -14,8 +14,6 @@ class ArticleDetailView(View):
                 has_favourite = True
             if UserLike.objects.filter(user=request.user, object_id=article_id, like_type=1):
                 has_like = True
-        template_name = 'article.html'
-        page_template = 'el-pagination/comment-pagination.html'
         article = get_object_or_404(Articles, id=article_id)
 
         # 点击量增加一
@@ -26,12 +24,9 @@ class ArticleDetailView(View):
         hot_articles = Articles.objects.all().order_by("-click_number")[:5]
         recent_articles = Articles.objects.all().order_by("-add_time")[:5]
         comments_list = Comments.objects.filter(comment_type=1, object_id=article_id).order_by("-add_time")
-        if request.is_ajax():
-            template_name = page_template
-        return render(request, template_name, {"article": article, "tags": tags, "comments_list": comments_list,
-                                               "page_template": page_template, "has_favourite": has_favourite,
-                                               "has_like": has_like, "hot_articles": hot_articles,
-                                               "recent_articles": recent_articles})
+        return render(request, 'article.html', {"article": article, "tags": tags, "comments_list": comments_list,
+                                                "has_favourite": has_favourite, "has_like": has_like,
+                                                "hot_articles": hot_articles, "recent_articles": recent_articles})
 
 
 class ArticleAllView(View):

@@ -26,21 +26,23 @@
         <ul>
             {% for recent_article in recent_articles %}
                 <li>
-                    <h3 class="blog-title"><a href="{% url 'articles:article_detail' recent_article.id %}" target="_blank" >{{ recent_article.title }}</a></h3>
-                    <div class="blog-info">
-                        <span class="blog-pic">
-                            <a href="{% url 'articles:article_detail' recent_article.id %}" title="{{ recent_article.title }}" target="_blank" >
-                                <img src="{{ MEDIA_URL }}{{ recent_article.image }}" alt="{{ recent_article.title }}" />
-                            </a>
-                        </span>
-                        <p>{{ recent_article.abstract }}</p>
-                    </div>
-                    <div class="author">
-                        <span class="blog-tags "><span class="glyphicon glyphicon-tag" aria-hidden="true"></span>{{ recent_article.get_tags_string }}</span>
-                        <span class="datetime"><span class="glyphicon glyphicon-time" aria-hidden="true"></span>{{ recent_article.add_time }}</span>
-                        <span class="click-num"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>浏览（{{ recent_article.click_number }}）</span>
-                        <span class="read-more"><a href="{% url 'articles:article_detail' recent_article.id %}" class="more">阅读原文>></a></span>
-                    </div>
+                    <a href="{% url 'articles:article_detail' recent_article.id %}">
+                        <h3 class="blog-title"><a href="{% url 'articles:article_detail' recent_article.id %}" target="_blank" >{{ recent_article.title }}</a></h3>
+                        <div class="blog-info">
+                            <span class="blog-pic">
+                                <a href="{% url 'articles:article_detail' recent_article.id %}" title="{{ recent_article.title }}" target="_blank" >
+                                    <img src="{{ MEDIA_URL }}{{ recent_article.image }}" alt="{{ recent_article.title }}" />
+                                </a>
+                            </span>
+                            <p>{{ recent_article.abstract }}</p>
+                        </div>
+                        <div class="author">
+                            <span class="blog-tags "><span class="glyphicon glyphicon-tag" aria-hidden="true"></span>{{ recent_article.get_tags_string }}</span>
+                            <span class="datetime"><span class="glyphicon glyphicon-time" aria-hidden="true"></span>{{ recent_article.add_time }}</span>
+                            <span class="click-num"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>浏览（{{ recent_article.click_number }}）</span>
+                            <span class="read-more"><a href="{% url 'articles:article_detail' recent_article.id %}" class="more">阅读原文>></a></span>
+                        </div>
+                    </a>
                 </li>
             {% endfor %}
 
@@ -63,7 +65,9 @@
         <ul>
             {% for hot_article in hot_articles %}
                 <li><b><a href="{% url 'articles:article_detail' hot_article.id %}" target="_blank">{{ hot_article.title }}</a></b>
-                    <p>{{ hot_article.abstract }}</p>
+                    <a href="{% url 'articles:article_detail' hot_article.id %}">
+                        <p>{{ hot_article.abstract }}</p>
+                    </a>
                 </li>
             {% endfor %}
 
@@ -74,7 +78,7 @@
         <ul>
             {% for hot_source in recent_sources %}
                 <li><b><a href="{% url 'sources:source_detail' hot_source.id %}" target="_blank">{{ hot_source.name }}</a></b>
-                    <p>{{ hot_source.abstract }}</p>
+                    <a href="{% url 'sources:source_detail' hot_source.id %}"><p>{{ hot_source.abstract }}</p></a>
                 </li>
             {% endfor %}
         </ul>

@@ -50,7 +50,7 @@ a:hover { text-decoration: none }
 .hot-articles { background: #ffffff; border-radius: 10px; overflow: hidden; margin: 20px 0 }
 .hot-articles .part-title { text-align: center; position: relative; margin: 20px; }
 .hot-articles ul { padding: 10px; }
-.hot-articles ul li { height:125px; list-style:none; border-bottom: solid 1px #EAEAEA; font-size: 14px; margin: 0 0 10px 0; padding: 0 0 10px 0; overflow: hidden;}
+.hot-articles ul li { max-height:125px; list-style:none; border-bottom: solid 1px #EAEAEA; font-size: 14px; margin: 0 0 10px 0; padding: 0 0 10px 0; overflow: hidden;}
 .hot-articles ul li b { height: 30px; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; display: block; }
 .hot-articles ul li p { line-height: 24px; color: #888 }
 .hot-articles ul li a:hover { color: #000; }

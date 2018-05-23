@@ -73,7 +73,7 @@
                             </a>
                             <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
                                 <li role="presentation"><a role="menuitem" tabindex="-1" href="{% url 'account:user_information' %}">个人主页</a></li>
-                                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">注销</a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="{% url 'account:logout' %}">注销</a></li>
                                 <li role="presentation"><a role="menuitem" tabindex="-1" href="{% url 'account:register' %}">注册</a></li>
                                 <li role="presentation"><a role="menuitem" tabindex="-1" href="{% url 'account:login' %}">登录</a></li>
                             </ul>

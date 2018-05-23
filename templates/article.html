@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
-{% load el_pagination_tags %}
+{% load pagination_tags %}
 {% block custom_css %}
     <link href="{% static 'css/index.css' %}" rel="stylesheet">
 	<link href="{% static 'css/article.css' %}" rel="stylesheet">
@@ -10,7 +10,6 @@
 {% block main_left %}
     <div class="detail">
         <div class="article-body">
-            <h5 class="page-path">您现在的位置是：<a href="{% url 'index' %}">首页</a>&nbsp;>&nbsp;<a href="">学无止境</a>&nbsp;>&nbsp;<a href="/jstt/web/">网站建设</a></h5>
             <h3 class="article-title"><b>{{ article.title }}</b></h3>
             <div class="article-author">
                 <span class="author-name"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>{{ article.author.username }}</span>
@@ -50,8 +49,27 @@
                 <div class="clear-float"></div>
             </form>
             <ul class="comments-list">
-                {% include page_template %}
+                {% autopaginate comments_list 10 %}
+                {% for comment in comments_list %}
+                    <li class="comment-detail">
+                        <div class="col-md-2">
+                            <div class="profile-picture">
+                                <img class="user-avatar-display " src="{{ MEDIA_URL }}{{ comment.user.user_avatar }}" alt="absolutely" />
+                            </div>
+                        </div>
+                        <div class="col-md-10 info">
+                            <span class="username"><b>{{ comment.user.username }}</b></span>
+                            <span class="time">{{ comment.add_time }}</span>
+                            <p class="content">{{ comment.content }}</p>
+                        </div>
+                        <div class="comment-like">
+                            <span class="like favourite_and_like comment-like-click"><span class="comment-id" hidden="hidden">{{ comment.id }}</span><span class="glyphicon glyphicon-thumbs-up"></span>（{{ comment.get_like_number }}）</span>
+                            <div class="clear-float"></div>
+                        </div>
+                    </li>
+                {% endfor %}
             </ul>
+            {% paginate using 'pagination-sm.html' %}
         {% else %}
             <div class="comments">
                 <p class="text-center">当前文章暂未开放评论</p>
@@ -75,7 +93,6 @@
                     <p>{{ hot_article.abstract }}</p>
                  </li>
             {% endfor %}
-
         </ul>
     </div>
     <div class="hot-articles">
