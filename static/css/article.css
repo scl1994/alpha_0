@@ -12,7 +12,7 @@
 .detail .article-author { width: 100%; color: #999; line-height: 18px; }
 .detail .article-author span { margin-right: 15px;}
 
-.detail .tags a { background: #F4650E; padding: 3px 8px; margin: 0 5px 0 0; color: #fff; }
+.detail .tags>span { background: #F4650E; padding: 3px 8px; margin: 0 5px 0 0; color: #fff; }
 .detail .tags { margin: 10px 0; }
 
 .detail .abstract { color: #888888; border: 1px solid #F3F3F3; padding: 10px; margin: 20px auto 15px auto; line-height: 23px; background: none repeat 0 0 #F6F6F6; }

@@ -25,7 +25,7 @@ sys.path.append(os.path.join(BASE_DIR, "apps"))
 SECRET_KEY = '7xy@ab=y4)o7r)pxj4yq54(0gb09c$c$1o$x$3g2$2!!#d*=)8'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
@@ -143,7 +143,7 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
-STATIC_ROOT = os.path.join(BASE_DIR, "static")
+# STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 
 MEDIA_URL = '/media/'
@@ -165,7 +165,7 @@ EMAIL_FROM = "alpha_scl@sina.com"
 # 分页
 
 # 默认每页个数
-PAGINATION_DEFAULT_PAGINATION = 5
+PAGINATION_DEFAULT_PAGINATION = 10
 
 # 当前页的前后显示的页数
 PAGINATION_DEFAULT_WINDOW = 2

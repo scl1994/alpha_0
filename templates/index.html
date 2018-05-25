@@ -37,10 +37,10 @@
                             <p>{{ recent_article.abstract }}</p>
                         </div>
                         <div class="author">
-                            <span class="blog-tags "><span class="glyphicon glyphicon-tag" aria-hidden="true"></span>{{ recent_article.get_tags_string }}</span>
+                            <span class="blog-tags "><span class="glyphicon glyphicon-user" aria-hidden="true"></span>{{ recent_article.author.username }}</span>
                             <span class="datetime"><span class="glyphicon glyphicon-time" aria-hidden="true"></span>{{ recent_article.add_time }}</span>
                             <span class="click-num"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>浏览（{{ recent_article.click_number }}）</span>
-                            <span class="read-more"><a href="{% url 'articles:article_detail' recent_article.id %}" class="more">阅读原文>></a></span>
+                            <span class="read-more"><a href="{% url 'articles:article_detail' recent_article.id %}" class="more" target="_blank">阅读原文>></a></span>
                         </div>
                     </a>
                 </li>

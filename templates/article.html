@@ -18,7 +18,7 @@
             </div>
             <div class="tags">
                 {% for tag in tags %}
-                    <a href="" target="_blank">{{ tag.name }}</a>
+                    <span>{{ tag.name }}</span>
                 {% endfor %}
             </div>
             <div class="abstract"><strong>简介</strong>{{ article.abstract }}</div>
@@ -90,7 +90,7 @@
         <ul>
             {% for hot_article in hot_articles %}
                 <li><b><a href="{% url 'articles:article_detail' hot_article.id %}" target="_blank">{{ hot_article.title }}</a></b>
-                    <p>{{ hot_article.abstract }}</p>
+                    <a href="{% url 'articles:article_detail' hot_article.id %}" target="_blank"><p>{{ hot_article.abstract }}</p></a>
                  </li>
             {% endfor %}
         </ul>
@@ -100,7 +100,7 @@
         <ul>
             {% for recent_article in recent_articles %}
                 <li><b><a href="{% url 'articles:article_detail' recent_article.id %}" target="_blank">{{ recent_article.title }}</a></b>
-                    <p>{{ recent_article.abstract }}</p>
+                    <a href="{% url 'articles:article_detail' recent_article.id %}" target="_blank" ><p>{{ recent_article.abstract }}</p></a>
                 </li>
             {% endfor %}
         </ul>
@@ -143,6 +143,7 @@
 </script>
     <script>
     $(document).ready(function () {
+        //资源点赞收藏、评论点赞
         $(".favourite_and_like").on("click", function(){
             let data = {};
             let this_element = $(this);

@@ -6,7 +6,7 @@ a:hover { text-decoration: none }
 
 
 /*资源下载展示区域*/
-.source { background: #ffffff; overflow: hidden; width: 100%; clear: both; border-radius: 10px; }
+.source { background: #ffffff; overflow: hidden; width: 100%; clear: both; border-radius: 10px; margin-bottom: 20px }
 .source .source-list {overflow: hidden; padding: 0 10px}
 .source .source-detail {border-bottom: #ccc 1px solid; border-left: #ccc 1px solid; overflow: hidden; padding:10px 20px 20px}
 .source .source-detail:nth-child(1) { border-left: 0 }
@@ -21,11 +21,13 @@ a:hover { text-decoration: none }
 
 
 /*博客文章列表*/
-.blog-list { background: #ffffff; overflow: hidden; width: 100%; clear: both; border-radius: 10px; margin: 20px 0 }
+.blog-list { background: #ffffff; overflow: hidden; width: 100%; clear: both; border-radius: 10px; }
 .blog-list .part-title { padding: 0 10px; line-height: 40px; height: 40px; font-size: 18px; ; border-bottom: #000 2px solid; position: relative; }
 .blog-list h3.blog-title { line-height: 30px; height: 30px; margin: 10px 0; }
-.blog-list .blog-pic { overflow: hidden; width: 30%; height: 100px; display: block; float: left; margin-right: 20px; border-radius: 5px; background: #333333; }
-.blog-list .blog-pic img { width: 100% }
+.blog-list .blog-info .blog-pic { overflow: hidden; width: 30%; height: 125px; display: block; float: left; margin-right: 20px; border-radius: 5px; background: #333333; }
+.blog-list .blog-info .blog-pic img { width: 100% }
+.blog-list .blog-info p { color: #888; line-height: 25px; max-height: 100px; overflow: hidden }
+.blog-list li:hover p {color: black} /*鼠标悬浮，改变文字颜色*/
 .blog-list ul { padding: 10px; overflow: hidden }
 .blog-list li { border-bottom: #ccc 1px solid; margin-bottom: 10px; overflow: hidden; list-style: none }
 .blog-list .author { width: 100%; overflow: hidden; clear: both; margin: 20px 0 0 0; display: inline-block; color: #838383; font-size: 12px }
@@ -33,12 +35,12 @@ a:hover { text-decoration: none }
 .blog-list .author span a { color: #096; }
 .blog-list.author span a:hover { text-decoration: underline }
 .blog-list .author .read-more {float: right}
-.blog-list .blog-info p { color: #888; line-height: 24px }
+
 .blog-list .more { font-size: 14px; }
 
 
 /*个人相关*/
-.about-me { background: #ffffff; border-radius: 10px; overflow: hidden }
+.about-me { background: #ffffff; border-radius: 10px; overflow: hidden; margin-bottom: 20px }
 .about-me .part-title { text-align: center; position: relative; margin: 20px; }
 .about-me .ab_con { line-height: 30px; padding: 10px; }
 .about-me .ab_con p { background: #f6f6f6; margin: 5px 0; padding-left: 10px; border-radius: 5px; text-shadow: rgba(255, 255, 255, 0.3) 0px 1px 0px; }
@@ -47,7 +49,7 @@ a:hover { text-decoration: none }
 
 
 /*排行相关*/
-.hot-articles { background: #ffffff; border-radius: 10px; overflow: hidden; margin: 20px 0 }
+.hot-articles { background: #ffffff; border-radius: 10px; overflow: hidden; margin-bottom: 20px }
 .hot-articles .part-title { text-align: center; position: relative; margin: 20px; }
 .hot-articles ul { padding: 10px; }
 .hot-articles ul li { max-height:125px; list-style:none; border-bottom: solid 1px #EAEAEA; font-size: 14px; margin: 0 0 10px 0; padding: 0 0 10px 0; overflow: hidden;}
@@ -60,7 +62,7 @@ a:hover { text-decoration: none }
 
 /*传说中的广告位*/
 .advertisement .part-title { text-align: center; position: relative; margin: 20px; }
-.advertisement { width: 100%; background: #FFF; border-radius: 10px; overflow: hidden; margin: 20px 0 }
+.advertisement { width: 100%; background: #FFF; border-radius: 10px; overflow: hidden; margin-bottom: 20px}
 .advertisement .pics {padding:5px;}
 .advertisement img { width: 100%; height: auto; border-radius: 5px}
 .advertisement img:hover { transform: scale(1.1) }
