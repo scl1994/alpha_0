@@ -44,17 +44,17 @@
                         </li>
                         <li role="presentation">
                             <a role="menuitem" tabindex="-1" href="{% url 'articles:special_list' %}">
-                                <span class="glyphicon glyphicon-erase" aria-hidden="true"></span> 专栏文章
+                                <span class="glyphicon glyphicon-erase" aria-hidden="true"></span> 特色专栏
                             </a>
                         </li>
                         <li role="presentation">
                             <a role="menuitem" tabindex="-1" href="{% url 'articles:series_list' %}">
-                                <span class="glyphicon glyphicon-book" aria-hidden="true"></span> 系列文章
+                                <span class="glyphicon glyphicon-book" aria-hidden="true"></span> 系列分享
                             </a>
                         </li>
                     </ul>
                 </li>
-				<li><a href="{% url 'sources:sources_list' %}">资源</a></li>
+				<li><a href="{% url 'sources:sources_list' %}">分享</a></li>
 				<li><a href="#">其他</a></li>
 
 			</ul>
@@ -72,10 +72,16 @@
                                 {{ user.username }}<span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-                                <li role="presentation"><a role="menuitem" tabindex="-1" href="{% url 'account:user_information' %}">个人主页</a></li>
-                                <li role="presentation"><a role="menuitem" tabindex="-1" href="{% url 'account:logout' %}">注销</a></li>
-                                <li role="presentation"><a role="menuitem" tabindex="-1" href="{% url 'account:register' %}">注册</a></li>
-                                <li role="presentation"><a role="menuitem" tabindex="-1" href="{% url 'account:login' %}">登录</a></li>
+                                <li role="presentation">
+                                    <a role="menuitem" tabindex="-1" href="{% url 'account:user_information' %}">
+                                        <span class="glyphicon glyphicon-user" aria-hidden="true"></span> 个人主页
+                                    </a>
+                                </li>
+                                <li role="presentation">
+                                    <a role="menuitem" tabindex="-1" href="{% url 'account:logout' %}">
+                                        <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> 退出登录
+                                    </a>
+                                </li>
                             </ul>
                         </li>
                     {% else %}
@@ -84,8 +90,16 @@
                                 用户登录<span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-                                <li role="presentation"><a role="menuitem" tabindex="-1" href="{% url 'account:login' %}">登录</a></li>
-                                <li role="presentation"><a role="menuitem" tabindex="-1" href="{% url 'account:register' %}">注册</a></li>
+                                <li role="presentation">
+                                    <a role="menuitem" tabindex="-1" href="{% url 'account:login' %}">
+                                        <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>  登 录
+                                    </a>
+                                </li>
+                                <li role="presentation">
+                                    <a role="menuitem" tabindex="-1" href="{% url 'account:register' %}">
+                                        <span class="glyphicon glyphicon-registration-mark" aria-hidden="true"></span>  注 册
+                                    </a>
+                                </li>
                             </ul>
                         </li>
                     {% endif %}

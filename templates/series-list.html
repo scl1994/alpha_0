@@ -6,9 +6,9 @@
 {% endblock %}
 {% block main_left %}
     <div class="blog-list">
-        <h2 class="part-title">最新文章</h2>
+        <h2 class="part-title">系列分享</h2>
         <ul>
-            {% autopaginate series_list 5 %}
+            {% autopaginate series_list 10 %}
             {% for series in series_list %}
                 <li>
                 <h3 class="blog-title"><a href="{% url 'articles:series_detail' series.id %}" target="_blank" >{{ series.title }}</a></h3>

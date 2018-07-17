@@ -6,9 +6,9 @@
 {% endblock %}
 {% block main_left %}
     <div class="blog-list">
-        <h2 class="part-title">最新文章</h2>
+        <h2 class="part-title">特色专栏</h2>
         <ul>
-            {% autopaginate special_list 5 %}
+            {% autopaginate special_list 10 %}
             {% for special_column in special_list %}
                 <li>
                 <h3 class="blog-title"><a href="{% url 'articles:special_detail' special_column.id %}" target="_blank" >{{ special_column.title }}</a></h3>

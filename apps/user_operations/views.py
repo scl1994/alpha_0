@@ -81,6 +81,10 @@ class FavouriteAndLikeView(View):
                                 content_type="application/json")
 
 
+
+
+
+
 def page_not_found(request):
     """全局404页面处理函数"""
     response = render_to_response("404.html", {})
