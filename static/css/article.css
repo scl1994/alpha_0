@@ -25,6 +25,8 @@
 .detail .article_content p { margin-bottom: 10px }
 /*设置markdown中的图片居中显示，其中margin: 0 auto只对块级元素起作用，所以要设置display:block*/
 .detail .article_content img { max-width: 95%; display:block; margin: 0 auto; border-radius: 5px}
+.detail .article_content a { color: blue}
+.detail .article_content a:hover { text-decoration: underline }
 
 .detail .favourite-like {padding: 20px 0; text-align: center}
 .detail .favourite-like .is_active{color: darkred}

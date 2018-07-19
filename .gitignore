@@ -107,4 +107,4 @@ venv.bak/
 .idea/
 
 # media
-media/
+/media/image

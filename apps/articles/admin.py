@@ -4,6 +4,7 @@ from django.contrib import admin
 from django.utils.safestring import mark_safe
 
 from articles.models import TagsOfArticle, SpecialColumn, Series, Articles
+from users.models import UserProfile
 
 
 @admin.register(TagsOfArticle)
@@ -69,6 +70,12 @@ class ArticlesAdmin(admin.ModelAdmin):
         return mark_safe('<img src={} style="max-width: 100%" alt="picture">'.format(obj.image.url))
 
     image_show.short_description = '封面'
+
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        """根据用户的is_staff字段对文章的author外键字段进行过滤，因为只有is_staff为true才可以登录admin后台"""
+        if db_field.name == "author":
+            kwargs["queryset"] = UserProfile.objects.filter(is_staff=True)
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
     # def save_model(self, request, obj, form, change):
     #     if change:
