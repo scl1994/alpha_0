@@ -19,6 +19,12 @@ class TagsOfArticle(models.Model):
     def __str__(self):
         return self.name
 
+    def save(self, force_insert=False, force_update=False, using=None,
+             update_fields=None):
+        # 更新修改日期
+        self.update_time = datetime.now()
+        super().save(force_insert=False, force_update=False, using=None, update_fields=None)
+
 
 class SpecialColumn(models.Model):
     title = models.CharField(max_length=50, verbose_name="专栏名")
@@ -38,6 +44,12 @@ class SpecialColumn(models.Model):
     def get_articles(self):
         return self.articles_set.all()
 
+    def save(self, force_insert=False, force_update=False, using=None,
+             update_fields=None):
+        # 更新修改日期
+        self.update_time = datetime.now()
+        super().save(force_insert=False, force_update=False, using=None, update_fields=None)
+
 
 class Series(models.Model):
     title = models.CharField(max_length=50, verbose_name="系列名")
@@ -56,6 +68,12 @@ class Series(models.Model):
 
     def get_articles(self):
         return self.articles_set.all()
+
+    def save(self, force_insert=False, force_update=False, using=None,
+             update_fields=None):
+        # 更新修改日期
+        self.update_time = datetime.now()
+        super().save(force_insert=False, force_update=False, using=None, update_fields=None)
 
 
 class Articles(models.Model):

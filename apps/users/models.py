@@ -28,3 +28,9 @@ class UserProfile(AbstractUser):
 
     def get_like_number(self):
         return self.userlike_set.all().count()
+
+    def save(self, force_insert=False, force_update=False, using=None,
+             update_fields=None):
+        # 更新修改日期
+        self.update_time = datetime.now()
+        super().save(force_insert=False, force_update=False, using=None, update_fields=None)

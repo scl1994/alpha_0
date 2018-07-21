@@ -19,6 +19,12 @@ class UserFavourite(models.Model):
     def __str__(self):
         return str(self.user) + '的收藏'
 
+    def save(self, force_insert=False, force_update=False, using=None,
+             update_fields=None):
+        # 更新修改日期
+        self.update_time = datetime.now()
+        super().save(force_insert=False, force_update=False, using=None, update_fields=None)
+
 
 class UserLike(models.Model):
     user = models.ForeignKey(UserProfile, verbose_name="用户")
@@ -33,6 +39,12 @@ class UserLike(models.Model):
 
     def __str__(self):
         return str(self.user) + '的赞'
+
+    def save(self, force_insert=False, force_update=False, using=None,
+             update_fields=None):
+        # 更新修改日期
+        self.update_time = datetime.now()
+        super().save(force_insert=False, force_update=False, using=None, update_fields=None)
 
 
 class Comments(models.Model):
@@ -54,3 +66,9 @@ class Comments(models.Model):
     def get_like_number(self):
         like_number = UserLike.objects.filter(object_id=self.id, like_type=3).count()
         return like_number
+
+    def save(self, force_insert=False, force_update=False, using=None,
+             update_fields=None):
+        # 更新修改日期
+        self.update_time = datetime.now()
+        super().save(force_insert=False, force_update=False, using=None, update_fields=None)
