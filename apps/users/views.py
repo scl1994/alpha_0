@@ -26,7 +26,7 @@ class CustomBackends(ModelBackend):
                 return user
             else:
                 return None
-        except Exception as e:
+        except Exception:
             return None
 
 
@@ -90,7 +90,7 @@ class ActiveView(View):
     def get(self, request, token):
         try:
             email = token_confirm.confirm_validate_token(token)
-        except:
+        except Exception:
             try:
                 email = token_confirm.remove_validate_token(token)
                 user = UserProfile.objects.get(email=email)
@@ -99,11 +99,11 @@ class ActiveView(View):
                 else:
                     user.delete()
                     return render(request, "register.html", {"message": "激活信息已过期，请重新注册"})
-            except:
+            except Exception:
                 return render(request, "register.html", {"message": "激活信息有误，请重新注册"})
         try:
             user = UserProfile.objects.get(email=email)
-        except:
+        except Exception:
             return render(request, "register.html", {"message": "激活用户不存在，请重新注册"})
         user.is_activated = True
         user.save()
