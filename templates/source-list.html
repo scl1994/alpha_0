@@ -37,7 +37,7 @@
 					</div>
 				</div>
 				<div class="hot-articles">
-					<h2 class="part-title"><a href="/">热文推荐</a></h2>
+					<h2 class="part-title"><a href="/">热门推荐</a></h2>
 					<ul>
 						{% for hot_source in hot_sources %}
                             <li><b><a href="{% url 'sources:source_detail' hot_source.id %}" target="_blank">{{ hot_source.name }}</a></b>

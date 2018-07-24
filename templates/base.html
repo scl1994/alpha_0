@@ -82,6 +82,16 @@
                                         <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> 退出登录
                                     </a>
                                 </li>
+
+                                {% if user.is_staff %}
+                                    <!--如果是员工，添加跳转到admin后台的链接-->
+                                    <li role="presentation">
+                                        <a role="menuitem" tabindex="-1" href="{% url 'admin:index' %}">
+                                            <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> 后台
+                                        </a>
+                                    </li>
+                                {% endif %}
+
                             </ul>
                         </li>
                     {% else %}
