@@ -81,7 +81,7 @@ class RegisterView(View):
 
             email_token = token_confirm.generate_validate_token(user_email)
             send_email(email=user_email, token=email_token, send_type="register")
-            return render(request, "login.html")
+            return render(request, "login.html", {})
         else:
             return render(request, "register.html", {"register_form": register_form})
 
@@ -95,7 +95,7 @@ class ActiveView(View):
                 email = token_confirm.remove_validate_token(token)
                 user = UserProfile.objects.get(email=email)
                 if user.is_activated:
-                    return render(request, "login.html")
+                    return render(request, "login.html", {})
                 else:
                     user.delete()
                     return render(request, "register.html", {"message": "激活信息已过期，请重新注册"})
@@ -107,12 +107,12 @@ class ActiveView(View):
             return render(request, "register.html", {"message": "激活用户不存在，请重新注册"})
         user.is_activated = True
         user.save()
-        return render(request, "login.html")
+        return render(request, "login.html", {})
 
 
 class ForgetPasswordView(View):
     def get(self, request):
-        return render(request, "forget-pwd.html")
+        return render(request, "forget-pwd.html", {})
 
     def post(self, request):
         forget_pwd_form = ForgetPwdForm(request.POST)
@@ -121,7 +121,7 @@ class ForgetPasswordView(View):
 
             email_token = token_confirm.generate_validate_token(email)
             send_email(email=email, token=email_token, send_type="forget_pwd")
-            return render(request, "send-success.html")
+            return render(request, "send-success.html", {})
         return render(request, "forget-pwd.html", {"forget_pwd_form": forget_pwd_form})
 
 
@@ -143,7 +143,7 @@ class ChangePwdView(View):
             user = UserProfile.objects.get(email=email)
             user.password = make_password(password)
             user.save()
-            return render(request, "login.html")
+            return render(request, "login.html", {})
         else:
             email = request.POST.get("email", "")
             return render(request, "change-pwd.html", {"change_pwd_form": change_pwd_form, "user_email": email})
