@@ -1,7 +1,7 @@
 from django.conf.urls import url
 
 from .views import LoginView, LogoutView, RegisterView, ActiveView, ForgetPasswordView, ForgetVerifyView, ChangePwdView, \
-    UserCenterInformationView, AvatarUploadView, ArticleFavouriteListView, SourceFavouriteListView
+    UserCenterInformationView, ArticleFavouriteListView, SourceFavouriteListView
 
 
 urlpatterns = [
@@ -24,6 +24,4 @@ urlpatterns = [
     url(r"^center/articles/$", ArticleFavouriteListView.as_view(), name="favourite_articles"),
 
     url(r"^center/sources/$", SourceFavouriteListView.as_view(), name="favourite_sources"),
-
-    url(r"^avatar_upload/$", AvatarUploadView.as_view(), name="avatar_upload")
 ]

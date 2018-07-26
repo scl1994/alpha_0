@@ -4,13 +4,13 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
+mysqlclient = "*"
 Django = "==1.11.12"
 Pillow = "*"
 Pygments = "*"
 itsdangerous = "*"
 "markdown2" = "*"
 dj-pagination = "*"
-pymysql = "*"
 
 [dev-packages]
 

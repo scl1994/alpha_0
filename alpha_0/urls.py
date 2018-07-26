@@ -24,9 +24,9 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
 
     url(r'media/(?P<path>.*)$', serve, {"document_root": settings.MEDIA_ROOT}),
-
-    # 关闭debug模式之后，django不再自动代理静态文件，需要手动为其配置服务
-    url(r'static/(?P<path>.*)$', serve, {"document_root": settings.STATIC_ROOT}),
+    #
+    # # 关闭debug模式之后，django不再自动代理静态文件，需要手动为其配置服务
+    # url(r'static/(?P<path>.*)$', serve, {"document_root": settings.STATIC_ROOT}),
 
     url(r'^articles/', include('articles.urls', namespace='articles')),
 

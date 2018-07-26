@@ -1,6 +1,7 @@
 from datetime import datetime
 
 from django.db import models
+from django.conf import settings
 import markdown2
 
 from users.models import UserProfile
@@ -12,8 +13,8 @@ class Sources(models.Model):
     author = models.ForeignKey(UserProfile, verbose_name="添加人", on_delete=models.CASCADE)
     download_url = models.URLField(max_length=500, verbose_name="下载地址")
     abstract = models.CharField(max_length=500, verbose_name="简介")
-    image = models.ImageField(upload_to="image/sources/%Y/%m", default="default/sources/sources_01.jpg", max_length=500,
-                              verbose_name="封面图")
+    cover_url = models.URLField(max_length=500, verbose_name="封面图",
+                                default=settings.DEFAULT_SOURCE_URL)
     description = models.TextField(verbose_name="详细介绍")
     description_html = models.TextField(verbose_name="详细介绍（html）", default="", null=True, blank=True)
     can_comment = models.BooleanField(default=True, verbose_name="能否评论")

@@ -1,6 +1,7 @@
 from datetime import datetime
 
 from django.db import models
+from django.conf import settings
 import markdown2
 
 from users.models import UserProfile
@@ -29,8 +30,8 @@ class TagsOfArticle(models.Model):
 class SpecialColumn(models.Model):
     title = models.CharField(max_length=50, verbose_name="专栏名")
     description = models.CharField(max_length=500, verbose_name="专栏简介")
-    image = models.ImageField(upload_to="image/specialColumn/%Y/%m", max_length=500,
-                              default="default/specialColumn/special_01.jpg", verbose_name="专栏封面")
+    cover_url = models.URLField(max_length=500, verbose_name="封面图",
+                                default=settings.DEFAULT_SPECIAL_URL)
     add_time = models.DateTimeField(default=datetime.now, verbose_name="添加时间")
     update_time = models.DateTimeField(default=datetime.now, verbose_name="修改时间")
 
@@ -54,8 +55,8 @@ class SpecialColumn(models.Model):
 class Series(models.Model):
     title = models.CharField(max_length=50, verbose_name="系列名")
     description = models.CharField(max_length=500, verbose_name="描述")
-    image = models.ImageField(upload_to="image/series/%Y/%m", max_length=500,
-                              default="default/series/series_01.jpg", verbose_name="封面图")
+    cover_url = models.URLField(max_length=500, verbose_name="封面图",
+                                default=settings.DEFAULT_SERIES_URL)
     add_time = models.DateTimeField(default=datetime.now, verbose_name="添加时间")
     update_time = models.DateTimeField(default=datetime.now, verbose_name="修改时间")
 
@@ -78,8 +79,8 @@ class Series(models.Model):
 
 class Articles(models.Model):
     title = models.CharField(max_length=200, verbose_name="标题")
-    image = models.ImageField(upload_to="image/articles/%Y/%m", max_length=500,
-                              default="default/articles/article_01.jpg", verbose_name="封面图")
+    cover_url = models.URLField(max_length=500, verbose_name="封面图",
+                                default=settings.DEFAULT_ARTICLE_URL)
     author = models.ForeignKey(UserProfile, verbose_name="作者")
     abstract = models.CharField(max_length=500, verbose_name="摘要")
     special_column = models.ForeignKey(SpecialColumn, verbose_name="专栏")

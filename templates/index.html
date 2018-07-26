@@ -13,7 +13,7 @@
         <ul class="source-list">
             {% for hot_source in hot_sources %}
                 <li class="col-md-3 source-detail">
-                    <a href="{% url 'sources:source_detail' hot_source.id %}" target="_blank"><div class="top-pic"><img src="{{ MEDIA_URL }}{{ hot_source.image }}"></div></a>
+                    <a href="{% url 'sources:source_detail' hot_source.id %}" target="_blank"><div class="top-pic"><img src="{{ hot_source.cover_url }}"></div></a>
                     <a href="{% url 'sources:source_detail' hot_source.id %}" target="_blank"><b>{{ hot_source.name }}</b></a>
                     <span>{{ hot_source.abstract }}</span>
                     <a href="{{ hot_source.download_url }}" target="_blank"  class="read-more">下载地址</a>
@@ -31,7 +31,7 @@
                         <div class="blog-info">
                             <span class="blog-pic">
                                 <a href="{% url 'articles:article_detail' recent_article.id %}" title="{{ recent_article.title }}" target="_blank" >
-                                    <img src="{{ MEDIA_URL }}{{ recent_article.image }}" alt="{{ recent_article.title }}" />
+                                    <img src="{{ recent_article.cover_url }}" alt="{{ recent_article.title }}" />
                                 </a>
                             </span>
                             <p>{{ recent_article.abstract }}</p>
@@ -86,7 +86,7 @@
     <div class="advertisement">
         <h2 class="part-title">广告位招租</h2>
         <div class="pics">
-            <img src="{{ MEDIA_URL }}default/ad/ad_01.jpg">
+            <img src="media/default/ad/ad_01.jpg">
         </div>
     </div>
 {% endblock %}

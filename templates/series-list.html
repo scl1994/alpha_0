@@ -15,7 +15,7 @@
                 <div class="blog-info">
                     <span class="blog-pic">
                         <a href="{% url 'articles:series_detail' series.id %}" title="{{ series.title }}">
-                            <img src="{{ MEDIA_URL }}{{ series.image }}" alt="{{ series.title }}" />
+                            <img src="{{ series.cover_url }}" alt="{{ series.title }}" />
                         </a>
                     </span>
                     <p>{{ series.description }}</p>

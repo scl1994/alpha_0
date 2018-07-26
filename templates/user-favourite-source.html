@@ -15,7 +15,7 @@
                 <div class="blog-info">
                         <span class="blog-pic">
                             <a href="{% url 'sources:source_detail' favourite_source.id %}" title="{{ favourite_source.name }}" target="_blank" >
-                                <img src="{{ MEDIA_URL }}{{ favourite_source.image }}" alt="{{ favourite_source.name }}" />
+                                <img src="{{ favourite_source.cover_url }}" alt="{{ favourite_source.name }}" />
                             </a>
                         </span>
                     <p>{{ favourite_source.abstract }}</p>

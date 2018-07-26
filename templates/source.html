@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load staticfiles %}
 {% load pagination_tags %}
+{% load gravatar %}
 {% block custom_css %}
     <link href="{% static 'css/index.css' %}" rel="stylesheet">
     <link href="{% static 'css/article.css' %}" rel="stylesheet">
@@ -18,7 +19,7 @@
             </div>
             <div class="abstract"><strong>简介</strong>{{ source.abstract }}</div>
             <div class="article-cover">
-                <a href="{{ source.download_url }}"><img src="{{ MEDIA_URL }}{{ source.image }}" alt="source-cover"></a>
+                <a href="{{ source.download_url }}"><img src="{{ source.cover_url }}" alt="source-cover"></a>
             </div>
             <div class="article_content">
                 {{ source.description_html | safe }}
@@ -53,7 +54,7 @@
                     <li class="comment-detail">
                         <div class="col-md-2">
                             <div class="profile-picture">
-                                <img class="user-avatar-display " src="{{ MEDIA_URL }}{{ comment.user.user_avatar }}" alt="absolutely" />
+                                <img class="user-avatar-display " src="{{ comment.user|gravatar_url:100 }}" alt="absolutely" />
                             </div>
                         </div>
                         <div class="col-md-10 info">

@@ -18,7 +18,7 @@
             {% autopaginate sources_list 16 %}
             {% for source in sources_list %}
                 <li class="col-md-3 source-detail">
-                    <div class="top-pic"><a href="{% url 'sources:source_detail' source.id %}"><img src="{{ MEDIA_URL }}{{ source.image }}" alt="{{ source.name }}"></a></div>
+                    <div class="top-pic"><a href="{% url 'sources:source_detail' source.id %}"><img src="{{ source.cover_url }}" alt="{{ source.name }}"></a></div>
                     <a href="{% url 'sources:source_detail' source.id %}"><b>{{ source.name }}</b></a>
                     <span>{{ source.abstract }}</span>
                     <a href="{{ source.download_url }}" target="_blank" class="read-more">>>下载链接</a>

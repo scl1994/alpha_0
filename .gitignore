@@ -108,3 +108,7 @@ venv.bak/
 
 # media
 /media/image
+
+# security.conf
+*/security_dev.py
+*/security_pro.py

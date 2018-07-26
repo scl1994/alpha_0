@@ -2,21 +2,23 @@ from django.contrib import admin
 from django.utils.safestring import mark_safe
 
 from users.models import UserProfile
+from utils.help_avatar_hash import get_gravatar_url
 
 
 @admin.register(UserProfile)
 class UserProfileAdmin(admin.ModelAdmin):
     filter_horizontal = ('groups', 'user_permissions')
     list_display = ("id", "username")
-    readonly_fields = ('avatar_image', 'password')
+    readonly_fields = ('avatar_image', 'password', "avatar_hash")
     fieldsets = (
         ("基本信息", {"fields": ["username", "email", "add_time", "update_time"]}),
-        ("图片", {"fields": ["avatar_image", "user_avatar"]}),
+        ("图片", {"fields": ["avatar_image", "avatar_hash"]}),
         ("权限", {"fields": ["is_superuser", "is_staff", "is_activated", "is_active", "can_comment", "groups",
                            "user_permissions"]}))
 
     def avatar_image(self, obj):
-        return mark_safe('<img src="{}" style="max-width: 100%" alt="picture"/>'.format(obj.user_avatar.url))
+        url = get_gravatar_url(obj, 200)
+        return mark_safe('<img src="{0}" height="{1}" wide="{1}"></img>'.format(url, 200))
 
     avatar_image.short_description = '头像图片'
 

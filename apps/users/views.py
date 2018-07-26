@@ -1,16 +1,14 @@
-import json
-
 from django.shortcuts import render
 from django.views.generic.base import View
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.backends import ModelBackend
 from django.contrib.auth.hashers import make_password
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 
 from .models import UserProfile
-from .forms import LoginForm, RegisterForm, ForgetPwdForm, ChangePwdForm, AvatarUploadForm
+from .forms import LoginForm, RegisterForm, ForgetPwdForm, ChangePwdForm
 from sources.models import Sources
 from articles.models import Articles
 from utils.send_email import send_email
@@ -166,22 +164,6 @@ class UserCenterInformationView(LoginRequiredMixin, View):
 
     def get(self, request):
         return render(request, "user-information.html", {})
-
-
-class AvatarUploadView(LoginRequiredMixin, View):
-    login_url = '/account/login'
-
-    def post(self, request):
-        upload_form = AvatarUploadForm(request.POST, request.FILES, instance=request.user)
-        if upload_form.is_valid():
-            avatar = upload_form.cleaned_data.get("user_avatar")
-            request.user.user_avatar = avatar
-            request.user.save()
-            return HttpResponse(json.dumps({"status": "success"}), content_type="application/json")
-        else:
-            return HttpResponse(json.dumps({"status": "fail",
-                                            "message": upload_form.errors.get("user_avatar", "上传出错")}),
-                                content_type="application/json")
 
 
 class ArticleFavouriteListView(LoginRequiredMixin, View):

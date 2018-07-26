@@ -22,12 +22,12 @@ class SpecialColumnAdmin(admin.ModelAdmin):
     readonly_fields = ("image_show",)
     fieldsets = (
         ("基本信息", {"fields": ["title", "description"]}),
-        ("图片", {"fields": ["image_show", "image"]}),
+        ("图片", {"fields": ["cover_url", "image_show"]}),
         ("日期", {"fields": ["add_time", "update_time"]}),
     )
 
     def image_show(self, obj):
-        return mark_safe('<img src={} style="max-width: 100%" alt="picture">'.format(obj.image.url))
+        return mark_safe('<img src={} style="max-width: 100%" alt="picture">'.format(obj.cover_url))
 
     image_show.short_description = '封面'
 
@@ -40,13 +40,13 @@ class SeriesAdmin(admin.ModelAdmin):
     readonly_fields = ("image_show",)
     fieldsets = (
         ("基本信息", {"fields": ["title", "description"]}),
-        ("图片", {"fields": ["image_show", "image"]}),
+        ("图片", {"fields": ["cover_url", "image_show"]}),
         ("日期", {"fields": ["add_time", "update_time"]}),
         )
 
     # 用于在后台显示图片（默认的图片字段是一个路径，显示不了图片）
     def image_show(self, obj):
-        return mark_safe('<img src={} style="max-width: 100%" alt="picture">'.format(obj.image.url))
+        return mark_safe('<img src={} style="max-width: 100%" alt="picture">'.format(obj.cover_url))
 
     image_show.short_description = '封面'
 
@@ -57,17 +57,17 @@ class ArticlesAdmin(admin.ModelAdmin):
     search_fields = ('id', 'title', 'author',)
     list_filter = ("is_original", "can_comment", "special_column", "tags")
     filter_horizontal = ('tags',)
-    readonly_fields = ("image_show", "content_html", "click_number", "add_time", "update_time")
+    readonly_fields = ("id", "image_show", "click_number", "add_time", "update_time")
     exclude = ("content_html",)
     fieldsets = (
-        ("基本信息", {"fields": ["title", "abstract", "author", "can_comment", "special_column", "series", "tags"]}),
-        ("图片", {"fields": ["image_show", "image"]}),
-        ("文章主体", {"fields": ["content_markdown", "content_html"]}),
+        ("基本信息", {"fields": ["id", "title", "abstract", "author", "can_comment", "special_column", "series", "tags"]}),
+        ("图片", {"fields": ["cover_url", "image_show"]}),
+        ("文章主体", {"fields": ["content_markdown"]}),
         ("更多信息", {"fields": ["is_original", "original_author", "click_number", "add_time", "update_time"]}),
     )
 
     def image_show(self, obj):
-        return mark_safe('<img src={} style="max-width: 100%" alt="picture">'.format(obj.image.url))
+        return mark_safe('<img src={} style="max-width: 100%" alt="picture">'.format(obj.cover_url))
 
     image_show.short_description = '封面'
 

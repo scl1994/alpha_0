@@ -13,13 +13,13 @@ class SourcesAdmin(admin.ModelAdmin):
 
     fieldsets = (
         ("基本信息", {"fields": ["name", "author", "download_url", "abstract", "can_comment"]}),
-        ("图片", {"fields": ["image", "image_show"]}),
+        ("图片", {"fields": ["cover_url", "image_show"]}),
         ("描述", {"fields": ["description", "description_html"]}),
         ("更多信息", {"fields": ["click_number", "add_time", "update_time"]}),
     )
 
     def image_show(self, obj):
-        return mark_safe('<img src="{}" style="max-width: 100%" alt="picture"/>'.format(obj.image.url))
+        return mark_safe('<img src="{}" style="max-width: 100%" alt="picture"/>'.format(obj.cover_url))
     image_show.short_description = "封面图展示"
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
