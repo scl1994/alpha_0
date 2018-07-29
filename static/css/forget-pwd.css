@@ -9,6 +9,6 @@ body {background-color: #eee}
 .verify-email .login {margin: 10px 10px 10px 0}
 
 .verify-email .error-message { background: orange;color: blue; text-align: center;}
-.verify-email .error-message h4 {margin: 10px 0}
+.verify-email .error-message h4 {margin: 10px 0;}
 
 .verify-email .error-input {border-color: #f00; box-shadow: 0 0 5px #aa0b0b;}

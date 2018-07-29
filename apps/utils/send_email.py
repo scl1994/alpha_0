@@ -1,23 +1,49 @@
 """发送邮箱"""
+from threading import Thread
 
 from django.core.mail import send_mail
+from django.template import loader
+from django.conf import settings
+from django.shortcuts import reverse
 
-from alpha_0.settings import EMAIL_FROM
 
+class EmailMessage:
+    def __init__(self, user, token, send_type):
+        self.user = user
+        self.send_type = send_type
+        self.token = token
+        self.success = True
 
-def send_email(email, token, send_type="register"):
-    email_title = ""
-    email_body = ""
+    def send(self):
+        thread = Thread(target=self._send, args=[])
+        thread.start()
 
-    if send_type == "register":
-        email_title = "Alpha--用户邮箱激活"
-        email_body = "请点击以下链接激活你的邮箱（有效时间2小时）：http://127.0.0.1:8000/account/active/{0}".format(token)
-        send_status = send_mail(subject=email_title, message=email_body, from_email=EMAIL_FROM, recipient_list=[email])
-        if send_status:
-            pass
-    elif send_type == "forget_pwd":
-        email_title = "Alpha--修改密码邮箱验证"
-        email_body = "请点击以下链接验证你的邮箱（有效时间1小时）：http://127.0.0.1:8000/account/forget_verify/{0}".format(token)
-        send_status = send_mail(subject=email_title, message=email_body, from_email=EMAIL_FROM, recipient_list=[email])
-        if send_status:
-            pass
+    def _send(self):
+        if self.send_type == "confirm":
+            email_title = "Alpha-用户激活邮箱验证"
+            html_content = loader.render_to_string("email/confirm.html", {
+                "username": self.user.username,
+                "confirm_url": settings.DOMAIN + reverse("account:user_confirm", kwargs={"token": self.token}),
+                "reconfirm_url": settings.DOMAIN + reverse("account:user_reconfirm"),
+            })
+            text_content = loader.render_to_string("email/confirm.txt", {
+                "username": self.user.username,
+                "confirm_url": settings.DOMAIN + reverse("account:user_confirm", kwargs={"token": self.token}),
+                "reconfirm_url": settings.DOMAIN + reverse("account:user_reconfirm"),
+            })
+            send_mail(subject=email_title, message=text_content, html_message=html_content,
+                      from_email=settings.EMAIL_FROM, recipient_list=[self.user.email])
+        elif self.send_type == "forget_pwd":
+            email_title = "Alpha-重置密码邮箱验证"
+            html_content = loader.render_to_string("email/forget_pwd.html", {
+                "username": self.user.username,
+                "verify_url": settings.DOMAIN + reverse("account:forget_verify", kwargs={"token": self.token}),
+                "forget_url": settings.DOMAIN + reverse("account:forget_pwd"),
+            })
+            text_content = loader.render_to_string("email/forget_pwd.txt", {
+                "username": self.user.username,
+                "verify_url": settings.DOMAIN + reverse("account:forget_verify", kwargs={"token": self.token}),
+                "forget_url": settings.DOMAIN + reverse("account:forget_pwd"),
+            })
+            send_mail(subject=email_title, message=text_content, html_message=html_content,
+                      from_email=settings.EMAIL_FROM, recipient_list=[self.user.email])

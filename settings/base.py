@@ -101,4 +101,5 @@ USE_L10N = True
 USE_TZ = False
 
 
-
+# 指定登录的url
+LOGIN_URL = "/account/login"

@@ -19,7 +19,7 @@
 			<div class="verify-email" >
 				<p class="part-title"><b>更改密码</b></p>
 				<form action="{% url 'account:change_pwd' %}" method="POST" role="form">
-                    <input type="hidden" name="email" value="{{ user_email }}">
+                    <input type="hidden" name="email" value="{{ user_email }}" id="user_email">
 					<div class="form-group">
 						<label class="sr-only" for="password_1">新密码</label>
 						<div class="input-group">
@@ -55,7 +55,7 @@
 					<span class="login"><a href="{% url 'account:login' %}">用户登录</a></span>
 					<span class="login"><a href="{% url 'account:register' %}">注册账号</a></span>
 					<div class="verify-button">
-						<button type="submit" class="btn btn-success">修改</button>
+						<button type="button" class="btn btn-success button-submit">修改</button>
 					</div>
                     {% csrf_token %}
 				</form>
@@ -65,5 +65,35 @@
 </div>
 <script src="{% static 'js/bootstrap/jquery.min.js' %}"></script>
 <script src="{% static 'js/bootstrap/bootstrap.min.js' %}"></script>
+<script>
+    $(document).ready(function () {
+        //资源点赞收藏、评论点赞
+        $(".button-submit").on("click", function(){
+            let email = $("#user_email").val();
+            let password_1 = $("#password_1").val();
+            let password_2 = $("#password_2").val();
+            let data = {"email": email, "password_1": password_1, "password_2": password_2};
+
+            $.ajax({
+                cache: false,
+                type: "POST",
+                url:"{% url 'account:change_pwd' %}",
+                data:data,
+                async: true,
+                beforeSend:function(xhr){
+                    xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");
+                },
+                success: function(data) {
+                    if(data.status === 'fail'){
+                        alert(data.message);
+                    }else if (data.status === 'success'){
+                        window.location.href = "{% url 'account:login' %}"
+                    }
+                },
+            });
+
+    });
+    });
+</script>
 </body>
 </html>

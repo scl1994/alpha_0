@@ -6,7 +6,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
-	<title>忘记密码 - Alpha</title>
+	<title>重新激活 - Alpha</title>
 
 	<link href="{% static 'css/bootstrap/bootstrap.min.css' %}" rel="stylesheet">
 	<link href="{% static 'css/forget-pwd.css' %}" rel="stylesheet">
@@ -17,8 +17,8 @@
 	<div class="row">
 		<div class="col-md-6 col-md-offset-3">
 			<div class="verify-email" >
-				<p class="part-title"><b>验证邮箱</b></p>
-				<form action="{% url 'account:forget_pwd' %}" method="POST" role="form">
+				<p class="part-title"><b>激活邮箱</b></p>
+				<form action="{% url 'account:user_reconfirm' %}" method="POST" role="form">
 					<div class="form-group">
 						<label class="sr-only" for="user_email">邮箱</label>
 						<div class="input-group">
@@ -26,9 +26,9 @@
                             <input type="email" name="email" class="form-control {% if forget_pwd_form.errors.email %}error-input{% endif %}" id="user_email" placeholder="email" required="required">
                         </div>
 					</div>
-                    {% if forget_pwd_form.errors.email %}
+                    {% if reconfirm_form.errors.email %}
                         <div class="error-message">
-                            <h4><b>{{ forget_pwd_form.errors.email.0 }}</b></h4>
+                            <h4><b>{{ reconfirm_form.errors.email.0 }}</b></h4>
                         </div>
                     {% endif %}
                     <div class="error-message">
@@ -36,6 +36,7 @@
                     </div>
 					<span class="login"><a href="{% url 'account:login' %}">用户登录</a></span>
 					<span class="login"><a href="{% url 'account:register' %}">注册账号</a></span>
+                    <span class="login"><a href="{% url 'account:user_reconfirm' %}">激活邮件</a></span>
 					<div class="verify-button">
 						<button type="button" class="btn btn-success button-submit">验证</button>
 					</div>
@@ -57,7 +58,7 @@
             $.ajax({
                 cache: false,
                 type: "POST",
-                url:"{% url 'account:forget_pwd' %}",
+                url:"{% url 'account:user_reconfirm' %}",
                 data:data,
                 async: true,
                 beforeSend:function(xhr){
@@ -66,8 +67,10 @@
                 success: function(data) {
                     if(data.status === 'success'){
                         alert(data.message);
-                    }else if(data.status === "error_email"){
-                        window.location.href = "{% url 'account:register' %}";
+                    }else if (data.status === "is_confirmed"){
+                        window.location.href="{% url 'account:login' %}";
+                    }else if (data.status === "error_email"){
+                        window.location.href="{% url 'account:user_reconfirm' %}";
                     }
                 },
             });

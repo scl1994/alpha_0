@@ -112,3 +112,5 @@ venv.bak/
 # security.conf
 */security_dev.py
 */security_pro.py
+
+/logs/*

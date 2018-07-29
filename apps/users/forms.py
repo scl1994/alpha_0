@@ -1,5 +1,5 @@
 from django import forms
-from django.core.exceptions import ValidationError
+from django.core.exceptions import ValidationError, ObjectDoesNotExist
 
 from users.models import UserProfile
 
@@ -46,9 +46,19 @@ class ForgetPwdForm(forms.Form):
     def clean_email(self):
         # 对email的扩展验证，查找用户是否已经存在
         email = self.cleaned_data.get('email')
-        email_count = UserProfile.objects.filter(email=email).count()  # 从数据库中查找是否用户已经存在
-        if email_count == 0:
-            raise ValidationError('邮箱尚未注册！')
+        if not UserProfile.objects.filter(email=email).exists():
+            raise ValidationError("邮箱尚未注册！")
+        return email
+
+
+class ReconfirmForm(forms.Form):
+    email = forms.EmailField(required=True)
+
+    def clean_email(self):
+        # 对email的扩展验证，查找用户是否已经存在
+        email = self.cleaned_data.get('email')
+        if not UserProfile.objects.filter(email=email).exists():
+            raise ValidationError("邮箱尚未注册！")
         return email
 
 

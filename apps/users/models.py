@@ -12,7 +12,7 @@ class UserProfile(AbstractUser):
     email = models.EmailField(unique=True, verbose_name="邮箱地址", max_length=100)
     can_comment = models.BooleanField(default=True, verbose_name="能否评论")
     avatar_hash = models.CharField(verbose_name="Gravatar头像", null=True, blank=True, max_length=100)
-    is_activated = models.BooleanField(default=False, verbose_name="激活用户")
+    confirmed = models.BooleanField(default=False, verbose_name="激活用户")
     add_time = models.DateTimeField(default=datetime.now, verbose_name="添加时间")
     update_time = models.DateTimeField(default=datetime.now, verbose_name="修改时间")
 

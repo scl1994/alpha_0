@@ -1,18 +1,21 @@
-from django.shortcuts import render
+import json
+
+from django.shortcuts import render, redirect
 from django.views.generic.base import View
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.backends import ModelBackend
 from django.contrib.auth.hashers import make_password
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
+from django.core.exceptions import ObjectDoesNotExist
 
 from .models import UserProfile
-from .forms import LoginForm, RegisterForm, ForgetPwdForm, ChangePwdForm
+from .forms import LoginForm, RegisterForm, ForgetPwdForm, ChangePwdForm, ReconfirmForm
 from sources.models import Sources
 from articles.models import Articles
-from utils.send_email import send_email
-from utils.token import token_confirm
+from utils.send_email import EmailMessage
+from utils.token import default_token, Token
 from user_operations.models import UserFavourite
 
 
@@ -24,7 +27,8 @@ class CustomBackends(ModelBackend):
                 return user
             else:
                 return None
-        except Exception:
+        except ObjectDoesNotExist:
+            # 没有找到或者找到多个
             return None
 
 
@@ -39,7 +43,7 @@ class LoginView(View):
             password = request.POST.get("password", "")
             user = authenticate(username=email, password=password)
             if user is not None:
-                if user.is_activated:
+                if user.confirmed:
                     login(request, user)
                     # 注意这里由于首页需要各种数据，如果直接render跳转的首页，页面将缺少各种信息
                     #  所以应该使用重定向，让处理index的view来处理这个跳转
@@ -77,35 +81,62 @@ class RegisterView(View):
             user_profile.password = make_password(password)
             user_profile.save()
 
-            email_token = token_confirm.generate_validate_token(user_email)
-            send_email(email=user_email, token=email_token, send_type="register")
-            return render(request, "login.html", {})
+            token = default_token.generate_token({"email": user_email, "token_type": "confirm"})
+
+            message = EmailMessage(user=user_profile, token=token, send_type="confirm")
+            message.send()
+
+            return redirect("account:login")
         else:
             return render(request, "register.html", {"register_form": register_form})
 
 
-class ActiveView(View):
+class ConfirmView(View):
     def get(self, request, token):
-        try:
-            email = token_confirm.confirm_validate_token(token)
-        except Exception:
-            try:
-                email = token_confirm.remove_validate_token(token)
-                user = UserProfile.objects.get(email=email)
-                if user.is_activated:
-                    return render(request, "login.html", {})
-                else:
-                    user.delete()
-                    return render(request, "register.html", {"message": "激活信息已过期，请重新注册"})
-            except Exception:
-                return render(request, "register.html", {"message": "激活信息有误，请重新注册"})
-        try:
+        validate_result = default_token.confirm_token(token)
+        if validate_result["success"]:
+            data = validate_result["data"]
+            if data["token_type"] == "confirm":
+                try:
+                    user = UserProfile.objects.get(email=data.get("email"))
+                except ObjectDoesNotExist:
+                    return redirect("account:register")
+                if not user.confirmed:
+                    user.confirmed = True
+                    user.save()
+                return redirect("account:login")
+            else:
+                # token类型不对，重新请求
+                return redirect("account:user_reconfirm")
+        else:
+            # token解析失败
+            return redirect("account:user_reconfirm")
+
+
+class ReconfirmView(View):
+    def get(self, request):
+        return render(request, "reconfirm.html", {})
+
+    def post(self, request):
+        reconfirm_form = ReconfirmForm(request.POST)
+        if reconfirm_form.is_valid():
+
+            email = reconfirm_form.cleaned_data["email"]
             user = UserProfile.objects.get(email=email)
-        except Exception:
-            return render(request, "register.html", {"message": "激活用户不存在，请重新注册"})
-        user.is_activated = True
-        user.save()
-        return render(request, "login.html", {})
+            if not user.confirmed:
+                token = default_token.generate_token({"email": email, "token_type": "confirm"})
+
+                message = EmailMessage(user=user, token=token, send_type="confirm")
+                message.send()
+                return_msg = "已向{}用户发送激活邮件，邮件有效时间为两小时，请注意查收。".format(email)
+                return HttpResponse(json.dumps({'status': "success", "message": return_msg}),
+                                    content_type="application/json")
+            else:
+                return HttpResponse(json.dumps({'status': "is_confirmed"}),
+                                    content_type="application/json")
+        else:
+            return HttpResponse(json.dumps({'status': "error_email"}),
+                                content_type="application/json")
 
 
 class ForgetPasswordView(View):
@@ -115,21 +146,39 @@ class ForgetPasswordView(View):
     def post(self, request):
         forget_pwd_form = ForgetPwdForm(request.POST)
         if forget_pwd_form.is_valid():
-            email = request.POST.get("email", "")
+            email = forget_pwd_form.cleaned_data.get("email")
+            user = UserProfile.objects.get(email=email)
 
-            email_token = token_confirm.generate_validate_token(email)
-            send_email(email=email, token=email_token, send_type="forget_pwd")
-            return render(request, "send-success.html", {})
-        return render(request, "forget-pwd.html", {"forget_pwd_form": forget_pwd_form})
+            token_generator = Token(expires_in=1800)
+            token = token_generator.generate_token({"email": email, "token_type": "forget_pwd"})
+
+            message = EmailMessage(user=user, token=token, send_type="forget_pwd")
+            message.send()
+            return_msg = "已向{}用户发送验证邮件，邮件有效时间为0.5小时，请注意查收。".format(email)
+            return HttpResponse(json.dumps({'status': "success", "message": return_msg}),
+                                content_type="application/json")
+        else:
+            return HttpResponse(json.dumps({'status': "error_email"}),
+                                content_type="application/json")
 
 
 class ForgetVerifyView(View):
     def get(self, request, token):
-        try:
-            email = token_confirm.confirm_validate_token(token, expiration=3600)
-        except:
-            return render(request, "forget-pwd.html", {"message": "邮箱验证信息有误或者已过期，请重新验证"})
-        return render(request, "change-pwd.html", {"user_email": email})
+        validate_result = default_token.confirm_token(token)
+        if validate_result["success"]:
+            data = validate_result["data"]
+            if data["token_type"] == "forget_pwd":
+                try:
+                    UserProfile.objects.get(email=data.get("email"))
+                except ObjectDoesNotExist:
+                    return redirect("account:register")
+                return render(request, "change-pwd.html", {"user_email": data["email"]})
+            else:
+                # token类型不对，重新请求
+                return redirect("account:forget_pwd")
+        else:
+            # token解析失败
+            return redirect("account:forget_pwd")
 
 
 class ChangePwdView(View):
@@ -141,10 +190,11 @@ class ChangePwdView(View):
             user = UserProfile.objects.get(email=email)
             user.password = make_password(password)
             user.save()
-            return render(request, "login.html", {})
+            return HttpResponse(json.dumps({'status': "success"}), content_type="application/json")
         else:
-            email = request.POST.get("email", "")
-            return render(request, "change-pwd.html", {"change_pwd_form": change_pwd_form, "user_email": email})
+            return_msg = "请确保两次密码相同并且长度不小于6位"
+            return HttpResponse(json.dumps({'status': "fail", "message": return_msg}),
+                                content_type="application/json")
 
 
 class IndexView(View):
@@ -159,33 +209,22 @@ class IndexView(View):
 
 
 class UserCenterInformationView(LoginRequiredMixin, View):
-    # 如果没登录重定向到登录地址
-    login_url = '/account/login'
-
     def get(self, request):
         return render(request, "user-information.html", {})
 
 
 class ArticleFavouriteListView(LoginRequiredMixin, View):
-    login_url = '/account/login'
-
     def get(self, request):
         favourite_articles_ids = UserFavourite.objects.filter(user=request.user, favourite_type=1)
-        favourite_articles = [
-            Articles.objects.filter(id=x.object_id).first() for x in favourite_articles_ids
-        ]
+        favourite_articles = (Articles.objects.filter(id=x.object_id).first() for x in favourite_articles_ids)
 
         return render(request, "user-favourite-article.html", {"favourite_articles": favourite_articles})
 
 
 class SourceFavouriteListView(LoginRequiredMixin, View):
-    login_url = '/account/login'
-
     def get(self, request):
         favourite_sources_ids = UserFavourite.objects.filter(user=request.user, favourite_type=2)
-        favourite_sources = [
-            Sources.objects.filter(id=x.object_id).first() for x in favourite_sources_ids
-        ]
+        favourite_sources = (Sources.objects.filter(id=x.object_id).first() for x in favourite_sources_ids)
 
         return render(request, "user-favourite-source.html", {"favourite_sources": favourite_sources})
 

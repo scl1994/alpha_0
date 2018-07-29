@@ -1,7 +1,7 @@
 from django.conf.urls import url
 
-from .views import LoginView, LogoutView, RegisterView, ActiveView, ForgetPasswordView, ForgetVerifyView, ChangePwdView, \
-    UserCenterInformationView, ArticleFavouriteListView, SourceFavouriteListView
+from .views import LoginView, LogoutView, RegisterView, ConfirmView, ForgetPasswordView, ForgetVerifyView, ChangePwdView, \
+    UserCenterInformationView, ArticleFavouriteListView, SourceFavouriteListView, ReconfirmView
 
 
 urlpatterns = [
@@ -11,7 +11,9 @@ urlpatterns = [
 
     url(r'^register/$', RegisterView.as_view(), name="register"),
 
-    url(r"^active/(?P<token>.*)/$", ActiveView.as_view(), name="user_active"),
+    url(r"^confirm/(?P<token>.*)/$", ConfirmView.as_view(), name="user_confirm"),
+
+    url(r"^reconfirm/$", ReconfirmView.as_view(), name="user_reconfirm"),
 
     url(r"^forget_pwd/$", ForgetPasswordView.as_view(), name="forget_pwd"),
 
