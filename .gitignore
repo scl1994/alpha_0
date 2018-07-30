@@ -114,3 +114,4 @@ venv.bak/
 */security_pro.py
 
 /logs/*
+/conf/*

@@ -216,7 +216,7 @@ class UserCenterInformationView(LoginRequiredMixin, View):
 class ArticleFavouriteListView(LoginRequiredMixin, View):
     def get(self, request):
         favourite_articles_ids = UserFavourite.objects.filter(user=request.user, favourite_type=1)
-        favourite_articles = (Articles.objects.filter(id=x.object_id).first() for x in favourite_articles_ids)
+        favourite_articles = [Articles.objects.filter(id=x.object_id).first() for x in favourite_articles_ids]
 
         return render(request, "user-favourite-article.html", {"favourite_articles": favourite_articles})
 
@@ -224,7 +224,7 @@ class ArticleFavouriteListView(LoginRequiredMixin, View):
 class SourceFavouriteListView(LoginRequiredMixin, View):
     def get(self, request):
         favourite_sources_ids = UserFavourite.objects.filter(user=request.user, favourite_type=2)
-        favourite_sources = (Sources.objects.filter(id=x.object_id).first() for x in favourite_sources_ids)
+        favourite_sources = [Sources.objects.filter(id=x.object_id).first() for x in favourite_sources_ids]
 
         return render(request, "user-favourite-source.html", {"favourite_sources": favourite_sources})
 

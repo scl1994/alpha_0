@@ -1,6 +1,6 @@
 
 .blog-list { background: #ffffff; overflow: hidden; width: 100%; clear: both; border-radius: 10px; border: solid 1px gray}
-.blog-list h3.blog-title { line-height: 30px; height: 30px; margin: 10px 0; }
+.blog-list h3.blog-title { line-height: 30px; height: 30px; margin: 10px 0; overflow: hidden}
 .blog-list .blog-pic { overflow: hidden; width: 20%; height: 100px; display: block; float: left; margin-right: 20px; border-radius: 5px; background: #333333; }
 .blog-list .blog-pic img { width: 100% }
 .blog-list ul { padding: 10px; overflow: hidden }

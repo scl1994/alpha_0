@@ -15,7 +15,7 @@
                 <div class="blog-info">
                     <span class="blog-pic">
                         <a href="{% url 'articles:special_detail' special_column.id %}" title="{{ special_column.title }}">
-                            <img src="}{{ special_column.cover_url }}" alt="{{ special_column.title }}" />
+                            <img src="{{ special_column.cover_url }}" alt="{{ special_column.title }}" />
                         </a>
                     </span>
                     <p>{{ special_column.description }}</p>

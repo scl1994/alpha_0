@@ -40,7 +40,7 @@ class SpecialColumn(models.Model):
         verbose_name_plural = verbose_name
 
     def __str__(self):
-        return self.title
+        return str(self.id) + "-" + self.title
 
     def get_articles(self):
         return self.articles_set.all()

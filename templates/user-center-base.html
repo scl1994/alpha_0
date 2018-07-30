@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 {% load staticfiles %}
+{% load gravatar %}
 <html lang="zh-CN">
 <head>
 	<meta charset="utf-8">
@@ -69,7 +70,7 @@
 					{% if request.user.is_authenticated %}
                         <li class="dropdown">
                             <a class="dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown">
-                                {{ user.username }}<span class="caret"></span>
+                                <img id="user-avatar-show" src="{{ request.user|gravatar_url:20 }}" alt="avatar" height=20px width=20px style="border-radius: 25%"> {{ user.username }}<span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
                                 <li role="presentation">
@@ -82,6 +83,14 @@
                                         <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> 退出登录
                                     </a>
                                 </li>
+                                {% if user.is_staff %}
+                                    <!--如果是员工，添加跳转到admin后台的链接-->
+                                    <li role="presentation">
+                                        <a role="menuitem" tabindex="-1" href="{% url 'admin:index' %}">
+                                            <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span> 后台
+                                        </a>
+                                    </li>
+                                {% endif %}
                             </ul>
                         </li>
                     {% else %}

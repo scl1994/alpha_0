@@ -23,7 +23,7 @@ a:hover { text-decoration: none }
 /*博客文章列表*/
 .blog-list { background: #ffffff; overflow: hidden; width: 100%; clear: both; border-radius: 10px; }
 .blog-list .part-title { padding: 0 10px; line-height: 40px; height: 40px; font-size: 18px; ; border-bottom: #000 2px solid; position: relative; }
-.blog-list h3.blog-title { line-height: 30px; height: 30px; margin: 10px 0; }
+.blog-list h3.blog-title { line-height: 30px; height: 30px; margin: 10px 0; overflow: hidden;}
 .blog-list .blog-info .blog-pic { overflow: hidden; width: 30%; height: 125px; display: block; float: left; margin-right: 20px; border-radius: 5px; background: #333333; }
 .blog-list .blog-info .blog-pic img { width: 100% }
 .blog-list .blog-info p { color: #888; line-height: 25px; max-height: 100px; overflow: hidden }
